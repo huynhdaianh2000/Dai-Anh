@@ -1,0 +1,228 @@
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local LocalPlayer = Players.LocalPlayer
+
+local ScreenGui = Instance.new("ScreenGui", LocalPlayer:WaitForChild("PlayerGui"))
+ScreenGui.ResetOnSpawn = false
+
+local MainFrame = Instance.new("Frame", ScreenGui)
+MainFrame.Size = UDim2.new(0, 140, 0, 328)
+MainFrame.Position = UDim2.new(0, 15, 0.5, -164)
+MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+MainFrame.Active = true
+MainFrame.Draggable = true
+Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 8)
+
+local Stroke = Instance.new("UIStroke", MainFrame)
+Stroke.Color = Color3.fromRGB(0, 180, 255)
+Stroke.Thickness = 1.5
+
+local Title = Instance.new("TextLabel", MainFrame)
+Title.Size = UDim2.new(1, -30, 0, 30)
+Title.BackgroundTransparency = 1
+Title.Text = "  ĐạiAnhskibidi"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 11
+Title.TextXAlignment = Enum.TextXAlignment.Left
+
+local MinBtn = Instance.new("TextButton", MainFrame)
+MinBtn.Size = UDim2.new(0, 25, 0, 25)
+MinBtn.Position = UDim2.new(1, -28, 0, 3)
+MinBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+MinBtn.Text = "-"
+MinBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+MinBtn.Font = Enum.Font.GothamBold
+MinBtn.TextSize = 12
+Instance.new("UICorner", MinBtn).CornerRadius = UDim.new(0, 5)
+
+local ContentFrame = Instance.new("Frame", MainFrame)
+ContentFrame.Size = UDim2.new(1, 0, 1, -35)
+ContentFrame.Position = UDim2.new(0, 0, 0, 35)
+ContentFrame.BackgroundTransparency = 1
+
+local ListLayout = Instance.new("UIListLayout", ContentFrame)
+ListLayout.Padding = UDim.new(0, 6)
+ListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+local SpeedInput = Instance.new("TextBox", ContentFrame)
+SpeedInput.Size = UDim2.new(0, 125, 0, 30)
+SpeedInput.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+SpeedInput.PlaceholderText = "Tốc độ..."
+SpeedInput.Text = "50"
+SpeedInput.TextColor3 = Color3.fromRGB(255, 255, 255)
+SpeedInput.Font = Enum.Font.GothamSemibold
+SpeedInput.TextSize = 11
+Instance.new("UICorner", SpeedInput).CornerRadius = UDim.new(0, 6)
+
+local currentSpeed = 50
+SpeedInput.FocusLost:Connect(function()
+    currentSpeed = tonumber(SpeedInput.Text) or 50
+    SpeedInput.Text = tostring(currentSpeed)
+end)
+
+local isMinimized = false
+MinBtn.MouseButton1Click:Connect(function()
+    isMinimized = not isMinimized
+    ContentFrame.Visible = not isMinimized
+    MainFrame:TweenSize(isMinimized and UDim2.new(0, 140, 0, 32) or UDim2.new(0, 140, 0, 328), "Out", "Quad", 0.15, true)
+    MinBtn.Text = isMinimized and "+" or "-"
+end)
+
+local function createButton(text)
+    local btn = Instance.new("TextButton", ContentFrame)
+    btn.Size = UDim2.new(0, 125, 0, 32)
+    btn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    btn.Text = text
+    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    btn.Font = Enum.Font.GothamSemibold
+    btn.TextSize = 11
+    Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 6)
+    return btn
+end
+
+local speedEnabled, noclipEnabled, infJumpEnabled, espEnabled = false, false, false, false
+local btnSpeed = createButton("Speed: OFF")
+local btnNoclip = createButton("Noclip: OFF")
+local btnInfJump = createButton("Inf Jump: OFF")
+local btnEsp = createButton("ESP Player: OFF")
+
+local SearchRow = Instance.new("Frame", ContentFrame)
+SearchRow.Size = UDim2.new(0, 125, 0, 30)
+SearchRow.BackgroundTransparency = 1
+
+local PlrInput = Instance.new("TextBox", SearchRow)
+PlrInput.Size = UDim2.new(0, 85, 1, 0)
+PlrInput.Position = UDim2.new(0, 0, 0, 0)
+PlrInput.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+PlrInput.PlaceholderText = "Tên người..."
+PlrInput.Text = ""
+PlrInput.TextColor3 = Color3.fromRGB(255, 255, 255)
+PlrInput.Font = Enum.Font.GothamSemibold
+PlrInput.TextSize = 11
+Instance.new("UICorner", PlrInput).CornerRadius = UDim.new(0, 6)
+
+local RefBtn = Instance.new("TextButton", SearchRow)
+RefBtn.Size = UDim2.new(0, 35, 1, 0)
+RefBtn.Position = UDim2.new(0, 90, 0, 0)
+RefBtn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+RefBtn.Text = "Ref"
+RefBtn.TextColor3 = Color3.fromRGB(0, 180, 255)
+RefBtn.Font = Enum.Font.GothamBold
+RefBtn.TextSize = 10
+Instance.new("UICorner", RefBtn).CornerRadius = UDim.new(0, 6)
+
+local btnTp = createButton("Teleport")
+
+local function searchPlayer()
+    local text = string.lower(PlrInput.Text)
+    for _, p in ipairs(Players:GetPlayers()) do
+        if p ~= LocalPlayer and string.find(string.lower(p.Name), text) then
+            PlrInput.Text = p.Name
+            return p
+        end
+    end
+    return nil
+end
+
+local function removeEsp()
+    for _, p in ipairs(Players:GetPlayers()) do
+        if p.Character then
+            local hl = p.Character:FindFirstChild("DaiAnh_ESP")
+            if hl then hl:Destroy() end
+        end
+    end
+end
+
+RefBtn.MouseButton1Click:Connect(function()
+    local found = searchPlayer()
+    if not found and PlrInput.Text == "" then
+        for _, p in ipairs(Players:GetPlayers()) do
+            if p ~= LocalPlayer then
+                PlrInput.Text = p.Name
+                break
+            end
+        end
+    end
+end)
+
+btnTp.MouseButton1Click:Connect(function()
+    local targetPlayer = Players:FindFirstChild(PlrInput.Text) or searchPlayer()
+    if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+            LocalPlayer.Character.HumanoidRootPart.CFrame = targetPlayer.Character.HumanoidRootPart.CFrame
+        end
+    end
+end)
+
+btnSpeed.MouseButton1Click:Connect(function()
+    speedEnabled = not speedEnabled
+    btnSpeed.Text = speedEnabled and "Speed: ON" or "Speed: OFF"
+    btnSpeed.TextColor3 = speedEnabled and Color3.fromRGB(100, 255, 100) or Color3.fromRGB(255, 255, 255)
+end)
+
+local function toggleNoclip()
+    noclipEnabled = not noclipEnabled
+    btnNoclip.Text = noclipEnabled and "Noclip: ON" or "Noclip: OFF"
+    btnNoclip.TextColor3 = noclipEnabled and Color3.fromRGB(100, 255, 100) or Color3.fromRGB(255, 255, 255)
+end
+btnNoclip.MouseButton1Click:Connect(toggleNoclip)
+
+btnInfJump.MouseButton1Click:Connect(function()
+    infJumpEnabled = not infJumpEnabled
+    btnInfJump.Text = infJumpEnabled and "Inf Jump: ON" or "Inf Jump: OFF"
+    btnInfJump.TextColor3 = infJumpEnabled and Color3.fromRGB(100, 255, 100) or Color3.fromRGB(255, 255, 255)
+end)
+
+btnEsp.MouseButton1Click:Connect(function()
+    espEnabled = not espEnabled
+    btnEsp.Text = espEnabled and "ESP Player: ON" or "ESP Player: OFF"
+    btnEsp.TextColor3 = espEnabled and Color3.fromRGB(100, 255, 100) or Color3.fromRGB(255, 255, 255)
+    if not espEnabled then removeEsp() end
+end)
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if not gameProcessed and input.KeyCode == Enum.KeyCode.N then
+        toggleNoclip()
+    end
+end)
+
+UserInputService.JumpRequest:Connect(function()
+    if infJumpEnabled and LocalPlayer.Character then
+        local humanoid = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        end
+    end
+end)
+
+RunService.Stepped:Connect(function()
+    if noclipEnabled and LocalPlayer.Character then
+        for _, part in ipairs(LocalPlayer.Character:GetDescendants()) do
+            if part:IsA("BasePart") and part.CanCollide then
+                part.CanCollide = false
+            end
+        end
+    end
+    if speedEnabled and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+        if LocalPlayer.Character.Humanoid.WalkSpeed ~= currentSpeed then
+            LocalPlayer.Character.Humanoid.WalkSpeed = currentSpeed
+        end
+    end
+    if espEnabled then
+        for _, p in ipairs(Players:GetPlayers()) do
+            if p ~= LocalPlayer and p.Character then
+                if not p.Character:FindFirstChild("DaiAnh_ESP") then
+                    local hl = Instance.new("Highlight")
+                    hl.Name = "DaiAnh_ESP"
+                    hl.FillColor = Color3.fromRGB(255, 50, 50)
+                    hl.FillTransparency = 0.5
+                    hl.OutlineColor = Color3.fromRGB(255, 255, 255)
+                    hl.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+                    hl.Parent = p.Character
+                end
+            end
+        end
+    end
+end)
