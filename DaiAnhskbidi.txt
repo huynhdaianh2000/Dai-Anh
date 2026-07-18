@@ -1,0 +1,601 @@
+local P,R,U,W=game:GetService("Players"),game:GetService("RunService"),game:GetService("UserInputService"),game:GetService("Workspace")
+
+local LGT=game:GetService("Lighting") -- Dịch vụ Lighting để chỉnh Full Bright
+
+local LP=P.LocalPlayer
+
+local SG=Instance.new("ScreenGui",LP:WaitForChild("PlayerGui"))
+
+SG.ResetOnSpawn=false
+
+local MF=Instance.new("Frame",SG)
+
+MF.Size=UDim2.new(0,140,0,700) -- Tăng lên 700 để vừa nút Lag Fix
+
+MF.Position=UDim2.new(0,15,0.5,-350)
+
+MF.BackgroundColor3=Color3.fromRGB(15,15,15)
+
+MF.Active=true
+
+MF.Draggable=true
+
+Instance.new("UICorner",MF).CornerRadius=UDim.new(0,8)
+
+local ST=Instance.new("UIStroke",MF)
+
+ST.Color=Color3.fromRGB(0,180,255)
+
+ST.Thickness=1.5
+
+local TL=Instance.new("TextLabel",MF)
+
+TL.Size=UDim2.new(1,-30,0,30)
+
+TL.BackgroundTransparency=1
+
+TL.Text=" ĐạiAnhskibidi"
+
+TL.TextColor3=Color3.fromRGB(255,255,255)
+
+TL.Font=Enum.Font.GothamBold
+
+TL.TextSize=11
+
+TL.TextXAlignment=Enum.TextXAlignment.Left
+
+local MB=Instance.new("TextButton",MF)
+
+MB.Size=UDim2.new(0,25,0,25)
+
+MB.Position=UDim2.new(1,-28,0,3)
+
+MB.BackgroundColor3=Color3.fromRGB(30,30,30)
+
+MB.Text="-";MB.TextColor3=Color3.fromRGB(255,255,255)
+
+MB.Font=Enum.Font.GothamBold
+
+Instance.new("UICorner",MB).CornerRadius=UDim.new(0,5)
+
+local CF=Instance.new("Frame",MF)
+
+CF.Size=UDim2.new(1,0,1,-35)
+
+CF.Position=UDim2.new(0,0,0,35)
+
+CF.BackgroundTransparency=1
+
+local LL=Instance.new("UIListLayout",CF)
+
+LL.Padding=UDim.new(0,5)
+
+LL.HorizontalAlignment=Enum.HorizontalAlignment.Center
+
+local SB=Instance.new("TextBox",CF)
+
+SB.Size=UDim2.new(0,125,0,24)
+
+SB.BackgroundColor3=Color3.fromRGB(25,25,25)
+
+SB.PlaceholderText="Tốc độ chạy..."
+
+SB.Text="20"
+
+SB.TextColor3=Color3.fromRGB(255,255,255)
+
+SB.Font=Enum.Font.GothamSemibold
+
+SB.TextSize=11
+
+Instance.new("UICorner",SB).CornerRadius=UDim.new(0,6)
+
+local cs=20
+
+SB.FocusLost:Connect(function() cs=tonumber(SB.Text) or 20 SB.Text=tostring(cs) end)
+
+local FSB=Instance.new("TextBox",CF)
+
+FSB.Size=UDim2.new(0,125,0,24)
+
+FSB.BackgroundColor3=Color3.fromRGB(25,25,25)
+
+FSB.PlaceholderText="Tốc độ bay..."
+
+FSB.Text="50"
+
+FSB.TextColor3=Color3.fromRGB(255,255,255)
+
+FSB.Font=Enum.Font.GothamSemibold
+
+FSB.TextSize=11
+
+Instance.new("UICorner",FSB).CornerRadius=UDim.new(0,6)
+
+local cfs=50
+
+FSB.FocusLost:Connect(function() cfs=tonumber(FSB.Text) or 50 FSB.Text=tostring(cfs) end)
+
+local mn=false
+
+MB.MouseButton1Click:Connect(function() mn=not mn CF.Visible=not mn MF:TweenSize(mn and UDim2.new(0,140,0,32) or UDim2.new(0,140,0,700),"Out","Quad",0.15,true) MB.Text=mn and "+" or "-" end)
+
+local function cb(t) local b=Instance.new("TextButton",CF) b.Size=UDim2.new(0,125,0,24) b.BackgroundColor3=Color3.fromRGB(30,30,30) b.Text=t b.TextColor3=Color3.fromRGB(255,255,255) b.Font=Enum.Font.GothamSemibold b.TextSize=11 Instance.new("UICorner",b).CornerRadius=UDim.new(0,6) return b end
+
+
+
+local s,n,fl,j,e,ce,pe,c3,fb,lf=true,false,false,false,true,true,false,true,false,false
+
+local b1,b2,b2f,b3,b4,b4c,b8,b5,b9,b10=cb("Speed: ON"),cb("Noclip: OFF"),cb("Fly: OFF"),cb("Inf Jump: OFF"),cb("ESP Player: ON"),cb("ESP Comp: ON"),cb("ESP Pod: OFF"),cb("3rd Person: ON"),cb("Full Bright: OFF"),cb("Lag Fix: OFF")
+
+
+
+b1.TextColor3=Color3.fromRGB(100,255,100)
+
+b4.TextColor3=Color3.fromRGB(100,255,100)
+
+b4c.TextColor3=Color3.fromRGB(0,255,150)
+
+b5.TextColor3=Color3.fromRGB(100,255,100)
+
+
+
+local SFP=Instance.new("ScrollingFrame",CF)
+
+SFP.Size=UDim2.new(0,125,0,85)
+
+SFP.BackgroundColor3=Color3.fromRGB(22,22,22)
+
+SFP.BorderSizePixel=0
+
+SFP.ScrollBarThickness=3
+
+Instance.new("UICorner",SFP).CornerRadius=UDim.new(0,6)
+
+local SLP=Instance.new("UIListLayout",SFP)
+
+SLP.Padding=UDim.new(0,4)
+
+SLP.HorizontalAlignment=Enum.HorizontalAlignment.Center
+
+
+
+local SFC=Instance.new("ScrollingFrame",CF)
+
+SFC.Size=UDim2.new(0,125,0,85)
+
+SFC.BackgroundColor3=Color3.fromRGB(22,22,22)
+
+SFC.BorderSizePixel=0
+
+SFC.ScrollBarThickness=3
+
+Instance.new("UICorner",SFC).CornerRadius=UDim.new(0,6)
+
+local SLC=Instance.new("UIListLayout",SFC)
+
+SLC.Padding=UDim.new(0,4)
+
+SLC.HorizontalAlignment=Enum.HorizontalAlignment.Center
+
+
+
+local SFT=Instance.new("ScrollingFrame",CF)
+
+SFT.Size=UDim2.new(0,125,0,85)
+
+SFT.BackgroundColor3=Color3.fromRGB(22,22,22)
+
+SFT.BorderSizePixel=0
+
+SFT.ScrollBarThickness=3
+
+Instance.new("UICorner",SFT).CornerRadius=UDim.new(0,6)
+
+local SLT=Instance.new("UIListLayout",SFT)
+
+SLT.Padding=UDim.new(0,4)
+
+SLT.HorizontalAlignment=Enum.HorizontalAlignment.Center
+
+
+
+local function rc() for _,o in ipairs(W:GetDescendants()) do if o.Name=="HeThongDinhVi" or o.Name=="ComputerTagESP" then o:Destroy() end end end
+
+local function rcp() for _,o in ipairs(W:GetDescendants()) do if o.Name=="HeThongDinhViPod" or o.Name=="PodTagESP" then o:Destroy() end end end
+
+
+
+local function tv(m,st) if not ce then return end local t=m.PrimaryPart or m:FindFirstChildWhichIsA("BasePart") if not t then return end if not m:FindFirstChild("HeThongDinhVi") then local h=Instance.new("Highlight",m) h.Name="HeThongDinhVi" h.FillColor=Color3.fromRGB(0,255,150) h.FillTransparency=0.6 h.OutlineColor=Color3.fromRGB(255,255,255) h.DepthMode=Enum.HighlightDepthMode.AlwaysOnTop end if not t:FindFirstChild("ComputerTagESP") then local bb=Instance.new("BillboardGui",t) bb.Name="ComputerTagESP" bb.AlwaysOnTop=true bb.Size=UDim2.new(0,80,0,20) bb.StudsOffset=Vector3.new(0,3,0) local tl=Instance.new("TextLabel",bb) tl.Size=UDim2.new(1,0,1,0) tl.BackgroundTransparency=1 tl.Text="PC #"..tostring(st) tl.TextColor3=Color3.fromRGB(0,255,150) tl.Font=Enum.Font.GothamBold tl.TextSize=12 tl.TextStrokeTransparency=0 else t.ComputerTagESP.TextLabel.Text="PC #"..tostring(st) end end
+
+local function tvp(m,st) if not pe then return end local t=m.PrimaryPart or m:FindFirstChildWhichIsA("BasePart") if not t then return end if not m:FindFirstChild("HeThongDinhViPod") then local h=Instance.new("Highlight",m) h.Name="HeThongDinhViPod" h.FillColor=Color3.fromRGB(0,200,255) h.FillTransparency=0.6 h.OutlineColor=Color3.fromRGB(255,255,255) h.DepthMode=Enum.HighlightDepthMode.AlwaysOnTop end if not t:FindFirstChild("PodTagESP") then local bb=Instance.new("BillboardGui",t) bb.Name="PodTagESP" bb.AlwaysOnTop=true bb.Size=UDim2.new(0,80,0,20) bb.StudsOffset=Vector3.new(0,3,0) local tl=Instance.new("TextLabel",bb) tl.Size=UDim2.new(1,0,1,0) tl.BackgroundTransparency=1 tl.Text="Pod #"..tostring(st) tl.TextColor3=Color3.fromRGB(0,200,255) tl.Font=Enum.Font.GothamBold tl.TextSize=12 tl.TextStrokeTransparency=0 else t.PodTagESP.TextLabel.Text="Pod #"..tostring(st) end end
+
+
+
+local function upC() for _,i in ipairs(SFC:GetChildren()) do if i:IsA("TextButton") or i:IsA("TextLabel") then i:Destroy() end end local tl=Instance.new("TextLabel",SFC) tl.Size=UDim2.new(1,-6,0,16) tl.BackgroundTransparency=1 tl.Text="-- TP COMPUTER --" tl.TextColor3=Color3.fromRGB(0,180,255) tl.Font=Enum.Font.GothamBold tl.TextSize=9 local c=0 for _,o in ipairs(W:GetDescendants()) do if o:IsA("Model") and string.find(string.lower(o.Name),"computer") then c=c+1 local b=Instance.new("TextButton",SFC) b.Size=UDim2.new(1,-6,0,22) b.BackgroundColor3=Color3.fromRGB(30,35,45) b.Text="PC #"..tostring(c) b.TextColor3=Color3.fromRGB(255,255,255) b.Font=Enum.Font.GothamMedium b.TextSize=10 Instance.new("UICorner",b).CornerRadius=UDim.new(0,4) b.MouseButton1Click:Connect(function() local t=o.PrimaryPart or o:FindFirstChildWhichIsA("BasePart") if t and LP.Character and LP.Character:FindFirstChild("HumanoidRootPart") then LP.Character.HumanoidRootPart.CFrame=t.CFrame+Vector3.new(0,3,0) end end) if ce then tv(o,c) end end end if c==0 then local nc=Instance.new("TextLabel",SFC) nc.Size=UDim2.new(1,-6,0,14) nc.BackgroundTransparency=1 nc.Text="No computers found" nc.TextColor3=Color3.fromRGB(120,120,120) nc.Font=Enum.Font.GothamItalic nc.TextSize=9 end SFC.CanvasSize=UDim2.new(0,0,0,SLC.AbsoluteContentSize.Y+4) end
+
+local function upP() for _,i in ipairs(SFP:GetChildren()) do if i:IsA("TextButton") or i:IsA("TextLabel") then i:Destroy() end end local tl=Instance.new("TextLabel",SFP) tl.Size=UDim2.new(1,-6,0,16) tl.BackgroundTransparency=1 tl.Text="-- TP PLAYER --" tl.TextColor3=Color3.fromRGB(255,100,100) tl.Font=Enum.Font.GothamBold tl.TextSize=9 local c=0 for _,p in ipairs(P:GetPlayers()) do if p~=LP then c=c+1 local b=Instance.new("TextButton",SFP) b.Size=UDim2.new(1,-6,0,22) b.BackgroundColor3=Color3.fromRGB(45,30,30) b.Text=p.Name b.TextColor3=Color3.fromRGB(255,255,255) b.Font=Enum.Font.GothamMedium b.TextSize=10 Instance.new("UICorner",b).CornerRadius=UDim.new(0,4) b.MouseButton1Click:Connect(function() if p.Character and p.Character:FindFirstChild("HumanoidRootPart") and LP.Character and LP.Character:FindFirstChild("HumanoidRootPart") then LP.Character.HumanoidRootPart.CFrame=p.Character.HumanoidRootPart.CFrame+Vector3.new(0,3,0) end end) end end if c==0 then local np=Instance.new("TextLabel",SFP) np.Size=UDim2.new(1,-6,0,14) np.BackgroundTransparency=1 np.Text="No players found" np.TextColor3=Color3.fromRGB(120,120,120) np.Font=Enum.Font.GothamItalic np.TextSize=9 end SFP.CanvasSize=UDim2.new(0,0,0,SLP.AbsoluteContentSize.Y+4) end
+
+
+
+function upPod()
+
+for _,i in ipairs(SFT:GetChildren()) do if i:IsA("TextButton") or i:IsA("TextLabel") then i:Destroy() end end
+
+local tl=Instance.new("TextLabel",SFT) tl.Size=UDim2.new(1,-6,0,16) tl.BackgroundTransparency=1 tl.Text="-- TP FREEZE POD --" tl.TextColor3=Color3.fromRGB(0,255,255) tl.Font=Enum.Font.GothamBold tl.TextSize=9
+
+local c=0
+
+for _,v in ipairs(W:GetDescendants()) do
+
+if v:IsA("Model") and (string.find(string.lower(v.Name), "pod") or string.find(string.lower(v.Name), "tube")) then
+
+c=c+1
+
+local b=Instance.new("TextButton",SFT) b.Size=UDim2.new(1,-6,0,22) b.BackgroundColor3=Color3.fromRGB(25,45,45) b.Text="Pod #"..tostring(c) b.TextColor3=Color3.fromRGB(255,255,255) b.Font=Enum.Font.GothamMedium b.TextSize=10 Instance.new("UICorner",b).CornerRadius=UDim.new(0,4)
+
+b.MouseButton1Click:Connect(function()
+
+local t=v:FindFirstChild("Trigger") or v:FindFirstChild("PodTrigger") or v:FindFirstChild("Button") or v.PrimaryPart or v:FindFirstChildWhichIsA("BasePart")
+
+if t and LP.Character and LP.Character:FindFirstChild("HumanoidRootPart") then
+
+LP.Character.HumanoidRootPart.CFrame=t.CFrame+Vector3.new(0,3,0)
+
+end
+
+end)
+
+if pe then tvp(v,c) end
+
+end
+
+end
+
+if c==0 then
+
+local nc=Instance.new("TextLabel",SFT) nc.Size=UDim2.new(1,-6,0,14) nc.BackgroundTransparency=1 nc.Text="No pods found" nc.TextColor3=Color3.fromRGB(120,120,120) nc.Font=Enum.Font.GothamItalic nc.TextSize=9
+
+end
+
+SFT.CanvasSize=UDim2.new(0,0,0,SLT.AbsoluteContentSize.Y+4)
+
+end
+
+local function re() for _,p in ipairs(P:GetPlayers()) do if p.Character then local h=p.Character:FindFirstChild("DaiAnh_ESP") if h then h:Destroy() end local hd=p.Character:FindFirstChild("Head") if hd then local t=hd:FindFirstChild("DaiAnh_NameESP") if t then t:Destroy() end end end end end
+
+b1.MouseButton1Click:Connect(function() s=not s b1.Text=s and "Speed: ON" or "Speed: OFF" b1.TextColor3=s and Color3.fromRGB(100,255,100) or Color3.fromRGB(255,255,255) end)
+
+local function tn() n=not n b2.Text=n and "Noclip: ON" or "Noclip: OFF" b2.TextColor3=n and Color3.fromRGB(100,255,100) or Color3.fromRGB(255,255,255) end
+
+b2.MouseButton1Click:Connect(tn)
+
+
+
+-- Tối ưu lại trạng thái bật/tắt Fly (Chống crash trên Xeno)
+
+local bv, bg
+
+local function cleanupFly()
+
+if bv then bv:Destroy() bv = nil end
+
+if bg then bg:Destroy() bg = nil end
+
+local ch = LP.Character
+
+if ch then
+
+local hu = ch:FindFirstChildOfClass("Humanoid")
+
+if hu then hu.PlatformStand = false end
+
+end
+
+end
+
+
+
+b2f.MouseButton1Click:Connect(function()
+
+fl = not fl
+
+b2f.Text = fl and "Fly: ON" or "Fly: OFF"
+
+b2f.TextColor3 = fl and Color3.fromRGB(100,255,100) or Color3.fromRGB(255,255,255)
+
+if not fl then cleanupFly() end
+
+end)
+
+
+
+b3.MouseButton1Click:Connect(function() j=not j b3.Text=j and "Inf Jump: ON" or "Inf Jump: OFF" b3.TextColor3=j and Color3.fromRGB(100,255,100) or Color3.fromRGB(255,255,255) end)
+
+b4.MouseButton1Click:Connect(function() e=not e b4.Text=e and "ESP Player: ON" or "ESP Player: OFF" b4.TextColor3=e and Color3.fromRGB(100,255,100) or Color3.fromRGB(255,255,255) if not e then re() end end)
+
+b4c.MouseButton1Click:Connect(function() ce=not ce b4c.Text=ce and "ESP Comp: ON" or "ESP Computer: OFF" b4c.TextColor3=ce and Color3.fromRGB(0,255,150) or Color3.fromRGB(255,255,255) if not ce then rc() else upC() end end)
+
+b8.MouseButton1Click:Connect(function() pe=not pe b8.Text=pe and "ESP Pod: ON" or "ESP Pod: OFF" b8.TextColor3=pe and Color3.fromRGB(0,200,255) or Color3.fromRGB(255,255,255) if not pe then rcp() else upPod() end end)
+
+
+
+b5.MouseButton1Click:Connect(function()
+
+c3=true
+
+b5.Text="3rd Person: ON"
+
+b5.TextColor3=Color3.fromRGB(100,255,100)
+
+end)
+
+
+
+-- Sự kiện click cho nút Full Bright
+
+b9.MouseButton1Click:Connect(function()
+
+fb = not fb
+
+b9.Text = fb and "Full Bright: ON" or "Full Bright: OFF"
+
+b9.TextColor3 = fb and Color3.fromRGB(100,255,100) or Color3.fromRGB(255,255,255)
+
+if not fb then
+
+LGT.Ambient = Color3.fromRGB(127, 127, 127)
+
+LGT.OutdoorAmbient = Color3.fromRGB(127, 127, 127)
+
+LGT.Brightness = 1
+
+LGT.ClockTime = 14
+
+end
+
+end)
+
+
+
+-- Tính năng Fix Lag / Tối ưu hóa FPS
+
+local orgMat, orgShad = {}, {}
+
+local function doLagFix(state)
+
+if state then
+
+settings().Physics.PhysicsEnvironmentalThrottle = Enum.EnviromentalPhysicsThrottle.Always
+
+LGT.GlobalShadows = false
+
+for _, v in ipairs(W:GetDescendants()) do
+
+if v:IsA("BasePart") then
+
+if not orgMat[v] then orgMat[v] = v.Material end
+
+if v.CastShadow then orgShad[v] = v.CastShadow v.CastShadow = false end
+
+v.Material = Enum.Material.SmoothPlastic
+
+elseif v:IsA("Decal") or v:IsA("Texture") then
+
+v.Transparency = 1
+
+elseif v:IsA("ParticleEmitter") or v:IsA("Sparkles") or v:IsA("Fire") or v:IsA("Smoke") then
+
+v.Enabled = false
+
+end
+
+end
+
+else
+
+settings().Physics.PhysicsEnvironmentalThrottle = Enum.EnviromentalPhysicsThrottle.Default
+
+LGT.GlobalShadows = true
+
+for _, v in ipairs(W:GetDescendants()) do
+
+if v:IsA("BasePart") then
+
+if orgMat[v] then v.Material = orgMat[v] end
+
+if orgShad[v] ~= nil then v.CastShadow = orgShad[v] end
+
+elseif v:IsA("Decal") or v:IsA("Texture") then
+
+v.Transparency = 0
+
+elseif v:IsA("ParticleEmitter") or v:IsA("Sparkles") or v:IsA("Fire") or v:IsA("Smoke") then
+
+v.Enabled = true
+
+end
+
+end
+
+table.clear(orgMat)
+
+table.clear(orgShad)
+
+end
+
+end
+
+
+
+b10.MouseButton1Click:Connect(function()
+
+lf = not lf
+
+b10.Text = lf and "Lag Fix: ON" or "Lag Fix: OFF"
+
+b10.TextColor3 = lf and Color3.fromRGB(100,255,100) or Color3.fromRGB(255,255,255)
+
+doLagFix(lf)
+
+end)
+
+
+
+W.DescendantAdded:Connect(function(o)
+
+if lf then
+
+if o:IsA("BasePart") then
+
+o.Material = Enum.Material.SmoothPlastic
+
+o.CastShadow = false
+
+elseif o:IsA("Decal") or o:IsA("Texture") then
+
+o.Transparency = 1
+
+elseif o:IsA("ParticleEmitter") or o:IsA("Sparkles") or o:IsA("Fire") or o:IsA("Smoke") then
+
+o.Enabled = false
+
+end
+
+end
+
+if o:IsA("Model") and string.find(string.lower(o.Name),"computer") then upC()
+
+elseif o:IsA("Model") and (string.find(string.lower(o.Name),"pod") or string.find(string.lower(o.Name),"tube")) then upPod() end
+
+end)
+
+
+
+P.PlayerAdded:Connect(upP)
+
+P.PlayerRemoving:Connect(upP)
+
+U.InputBegan:Connect(function(i,g) if not g and i.KeyCode==Enum.KeyCode.N then tn() end end)
+
+U.JumpRequest:Connect(function() if j and LP.Character then local h=LP.Character:FindFirstChildOfClass("Humanoid") if h then h:ChangeState(Enum.HumanoidStateType.Jumping) end end end)
+
+
+
+task.spawn(function() while true do upC() upP() upPod() task.wait(3) end end)
+
+
+
+R.Stepped:Connect(function()
+
+local ch=LP.Character
+
+if not ch then return end
+
+
+
+-- Ép ánh sáng map khi bật Full Bright
+
+if fb then
+
+LGT.Ambient = Color3.fromRGB(255, 255, 255)
+
+LGT.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
+
+LGT.Brightness = 3
+
+LGT.ClockTime = 14
+
+end
+
+
+
+if c3 then LP.CameraMode=Enum.CameraMode.Classic if LP.CameraMaxZoomDistance<40 then LP.CameraMaxZoomDistance=40 end end
+
+if n then for _,p in ipairs(ch:GetDescendants()) do if p:IsA("BasePart") and p.CanCollide then p.CanCollide=false end end end
+
+
+
+local hu=ch:FindFirstChildOfClass("Humanoid")
+
+if s and hu and not fl then if hu.WalkSpeed~=cs then hu.WalkSpeed=cs end end
+
+
+
+local hr=ch:FindFirstChild("HumanoidRootPart")
+
+if fl and hr and hu then
+
+-- Khởi tạo lực bay một lần duy nhất để hạn chế lag cho executor Xeno
+
+if not bv or bv.Parent ~= hr then
+
+if bv then bv:Destroy() end
+
+bv = Instance.new("BodyVelocity")
+
+bv.MaxForce = Vector3.new(1e9, 1e9, 1e9)
+
+bv.Velocity = Vector3.new(0, 0, 0)
+
+bv.Parent = hr
+
+end
+
+if not bg or bg.Parent ~= hr then
+
+if bg then bg:Destroy() end
+
+bg = Instance.new("BodyGyro")
+
+bg.MaxTorque = Vector3.new(1e9, 1e9, 1e9)
+
+bg.CFrame = workspace.CurrentCamera.CFrame
+
+bg.Parent = hr
+
+end
+
+
+hu.PlatformStand = true
+
+local cm = workspace.CurrentCamera
+
+local md = Vector3.new(0, 0, 0)
+
+
+-- Kiểm tra phím bấm (Dành cho PC)
+
+if U:IsKeyDown(Enum.KeyCode.W) then md = md + cm.CFrame.LookVector end
+
+if U:IsKeyDown(Enum.KeyCode.S) then md = md - cm.CFrame.LookVector end
+
+if U:IsKeyDown(Enum.KeyCode.A) then md = md - cm.CFrame.RightVector end
+
+if U:IsKeyDown(Enum.KeyCode.D) then md = md + cm.CFrame.RightVector end
+
+if U:IsKeyDown(Enum.KeyCode.Space) then md = md + Vector3.new(0, 1, 0) end
+
+if U:IsKeyDown(Enum.KeyCode.LeftShift) then md = md - Vector3.new(0, 1, 0) end
+
+
+-- Hỗ trợ điều khiển mượt mà trên Mobile (Xeno Android) bằng cách lấy hướng di chuyển của phím ảo
+
+if md.Magnitude == 0 and hu.MoveDirection.Magnitude > 0 then
+
+md = hu.MoveDirection
+
+end
+
+
+bv.Velocity = md.Magnitude > 0 and md.Unit * cfs or Vector3.new(0, 0, 0)
+
+bg.CFrame = cm.CFrame
+
+end
+
+
+
+if e then for _,p in ipairs(P:GetPlayers()) do if p~=LP and p.Character then if not p.Character:FindFirstChild("DaiAnh_ESP") then local h=Instance.new("Highlight",p.Character) h.Name="DaiAnh_ESP" h.FillColor=Color3.fromRGB(255,50,50) h.FillTransparency=0.5 h.OutlineColor=Color3.fromRGB(255,255,255) h.DepthMode=Enum.HighlightDepthMode.AlwaysOnTop end local hd=p.Character:FindFirstChild("Head") if hd and not hd:FindFirstChild("DaiAnh_NameESP") then local bb=Instance.new("BillboardGui",hd) bb.Name="DaiAnh_NameESP" bb.AlwaysOnTop=true bb.Size=UDim2.new(0,100,0,20) bb.StudsOffset=Vector3.new(0,2.5,0) local tl=Instance.new("TextLabel",bb) tl.Size=UDim2.new(1,0,1,0) tl.BackgroundTransparency=1 tl.Text=p.Name tl.TextColor3=Color3.fromRGB(255,255,255) tl.Font=Enum.Font.GothamBold tl.TextSize=11 tl.TextStrokeTransparency=0 end end end end
+
+end)
