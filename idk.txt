@@ -1,0 +1,603 @@
+local P = game:GetService("Players")
+local R = game:GetService("RunService")
+local U = game:GetService("UserInputService")
+local W = game:GetService("Workspace")
+local LGT = game:GetService("Lighting")
+local GS = game:GetService("GuiService")
+
+local LP = P.LocalPlayer
+local PlayerGui = LP:WaitForChild("PlayerGui")
+
+local ParentContainer = (gethui and gethui()) or (syn and syn.protect_gui and game:GetService("CoreGui")) or game:GetService("CoreGui") or PlayerGui
+
+if ParentContainer:FindFirstChild("EvadeCustomUI") then
+	ParentContainer.EvadeCustomUI:Destroy()
+end
+
+-- URL Ảnh Meme Mèo
+local CAT_MEME_URL = "https://www.anhnghethuatdulich.com/wp-content/uploads/2025/07/meme-meo-gio-ngon-giua.jpg"
+
+-- --- KHỞI TẠO SCREENGUI CHÍNH ---
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+
+ScreenGui.Name = "EvadeCustomUI"
+ScreenGui.Parent = ParentContainer
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.DisplayOrder = 999999
+
+-- Khung chính của Menu
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(24, 24, 28)
+MainFrame.Position = UDim2.new(0.2, 0, 0.1, 0)
+MainFrame.Size = UDim2.new(0, 640, 0, 420)
+MainFrame.Active = true
+
+UICorner.CornerRadius = UDim.new(0, 8)
+UICorner.Parent = MainFrame
+
+local MainStroke = Instance.new("UIStroke", MainFrame)
+MainStroke.Color = Color3.fromRGB(255, 60, 60)
+MainStroke.Thickness = 1.5
+
+-- Thanh Tab phía trên
+local TabContainer = Instance.new("ScrollingFrame")
+TabContainer.Parent = MainFrame
+TabContainer.BackgroundTransparency = 1
+TabContainer.Position = UDim2.new(0, 12, 0, 12)
+TabContainer.Size = UDim2.new(0, 616, 0, 32)
+TabContainer.CanvasSize = UDim2.new(0, 600, 0, 0)
+TabContainer.ScrollBarThickness = 0
+
+-- Nút Icon góc trên bên trái (Đã thay emoji 🏃 bằng ảnh Meme Mèo)
+local HomeIconButton = Instance.new("ImageButton")
+HomeIconButton.Parent = TabContainer
+HomeIconButton.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
+HomeIconButton.Size = UDim2.new(0, 32, 0, 32)
+HomeIconButton.Image = CAT_MEME_URL
+local HomeCorner = Instance.new("UICorner")
+HomeCorner.CornerRadius = UDim.new(0, 6)
+HomeCorner.Parent = HomeIconButton
+
+local TitleLabel = Instance.new("TextLabel")
+TitleLabel.Parent = MainFrame
+TitleLabel.BackgroundTransparency = 1
+TitleLabel.Position = UDim2.new(0, 480, 0, 395)
+TitleLabel.Size = UDim2.new(0, 150, 0, 20)
+TitleLabel.Font = Enum.Font.SourceSansBold
+TitleLabel.Text = "daianhskibidi [EVADE]"
+TitleLabel.TextColor3 = Color3.fromRGB(150, 150, 150)
+TitleLabel.TextSize = 12
+
+local ContentContainer = Instance.new("Frame")
+ContentContainer.Parent = MainFrame
+ContentContainer.BackgroundTransparency = 1
+ContentContainer.Position = UDim2.new(0, 12, 0, 56)
+ContentContainer.Size = UDim2.new(0, 616, 0, 350)
+
+local Tabs = {}
+local TabButtons = {}
+
+local function createTabPage(name)
+	local page = Instance.new("Frame")
+	page.Name = name .. "Page"
+	page.Parent = ContentContainer
+	page.BackgroundTransparency = 1
+	page.Size = UDim2.new(1, 0, 1, 0)
+	page.Visible = false
+	Tabs[name] = page
+	return page
+end
+
+local MovementPage = createTabPage("Movement")
+local TeleportPage = createTabPage("Teleport")
+local ESPVisualsPage = createTabPage("ESP Visuals")
+local SettingsPage = createTabPage("Settings")
+
+MovementPage.Visible = true
+
+local function createTabButton(name, xPos, active)
+	local btn = Instance.new("TextButton")
+	btn.Parent = TabContainer
+	btn.BackgroundColor3 = active and Color3.fromRGB(255, 60, 60) or Color3.fromRGB(40, 40, 45)
+	btn.Position = UDim2.new(0, xPos, 0, 0)
+	btn.Size = UDim2.new(0, 120, 0, 32)
+	btn.Font = Enum.Font.SourceSansSemibold
+	btn.Text = name
+	btn.TextColor3 = active and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(180, 180, 180)
+	btn.TextSize = 13
+	
+	local corner = Instance.new("UICorner")
+	corner.CornerRadius = UDim.new(0, 6)
+	corner.Parent = btn
+	
+	TabButtons[name] = btn
+	
+	btn.MouseButton1Click:Connect(function()
+		for tabName, page in pairs(Tabs) do page.Visible = false end
+		for tabName, button in pairs(TabButtons) do
+			button.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
+			button.TextColor3 = Color3.fromRGB(180, 180, 180)
+		end
+		if Tabs[name] then Tabs[name].Visible = true end
+		btn.BackgroundColor3 = Color3.fromRGB(255, 60, 60)
+		btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+	end)
+	return btn
+end
+
+createTabButton("Movement", 45, true)
+createTabButton("Teleport", 175, false)
+createTabButton("ESP Visuals", 305, false)
+createTabButton("Settings", 435, false)
+
+local function createColumn(parent, posX, titleText)
+	local Column = Instance.new("ScrollingFrame")
+	Column.Parent = parent
+	Column.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+	Column.Position = UDim2.new(0, posX, 0, 0)
+	Column.Size = UDim2.new(0, 300, 0, 340)
+	Column.CanvasSize = UDim2.new(0, 0, 0, 480)
+	Column.ScrollBarThickness = 3
+	
+	local Corner = Instance.new("UICorner")
+	Corner.CornerRadius = UDim.new(0, 6)
+	Corner.Parent = Column
+
+	local Title = Instance.new("TextLabel")
+	Title.Parent = Column
+	Title.BackgroundTransparency = 1
+	Title.Position = UDim2.new(0, 0, 0, 8)
+	Title.Size = UDim2.new(1, 0, 0, 20)
+	Title.Font = Enum.Font.SourceSansBold
+	Title.Text = titleText
+	Title.TextColor3 = Color3.fromRGB(220, 220, 220)
+	Title.TextSize = 14
+	
+	return Column
+end
+
+-- Nút Toggle Bật/Tắt dạng công tắc tiêu chuẩn
+local function createToggle(parent, yPos, text, defaultState, callback)
+	local enabled = defaultState
+	local toggleFrame = Instance.new("Frame")
+	toggleFrame.Parent = parent
+	toggleFrame.BackgroundColor3 = Color3.fromRGB(42, 42, 48)
+	toggleFrame.Position = UDim2.new(0, 10, 0, yPos)
+	toggleFrame.Size = UDim2.new(0, 280, 0, 36)
+	
+	local corner = Instance.new("UICorner")
+	corner.CornerRadius = UDim.new(0, 6)
+	corner.Parent = toggleFrame
+	
+	local label = Instance.new("TextLabel")
+	label.Parent = toggleFrame
+	label.BackgroundTransparency = 1
+	label.Position = UDim2.new(0, 10, 0, 0)
+	label.Size = UDim2.new(0, 210, 1, 0)
+	label.Font = Enum.Font.SourceSans
+	label.Text = text
+	label.TextColor3 = Color3.fromRGB(200, 200, 200)
+	label.TextSize = 13
+	label.TextXAlignment = Enum.TextXAlignment.Left
+
+	local btn = Instance.new("TextButton", toggleFrame)
+	btn.Size = UDim2.new(1, 0, 1, 0)
+	btn.BackgroundTransparency = 1
+	btn.Text = ""
+
+	local switch = Instance.new("Frame")
+	switch.Parent = toggleFrame
+	switch.BackgroundColor3 = enabled and Color3.fromRGB(255, 60, 60) or Color3.fromRGB(60, 60, 65)
+	switch.Position = UDim2.new(1, -30, 0.5, -10)
+	switch.Size = UDim2.new(0, 20, 0, 20)
+	
+	local switchCorner = Instance.new("UICorner")
+	switchCorner.CornerRadius = UDim.new(1, 0)
+	switchCorner.Parent = switch
+
+	btn.MouseButton1Click:Connect(function()
+		enabled = not enabled
+		switch.BackgroundColor3 = enabled and Color3.fromRGB(255, 60, 60) or Color3.fromRGB(60, 60, 65)
+		if callback then callback(enabled) end
+	end)
+
+	return toggleFrame
+end
+
+-- --- BIẾN TRẠNG THÁI EVADE ---
+local s, n, fl, j, e, ce, c3, fb, lf = true, false, false, false, true, true, true, false, false
+local autoRespawn, autoBhop = true, false
+local cs, cfs = 30, 60
+
+-- --- TRANG MOVEMENT ---
+local GenLeft = createColumn(MovementPage, 0, "⚡ Evade Speed & Jump ⚡")
+local GenRight = createColumn(MovementPage, 316, "👁️ Evade World Vision 👁️")
+
+local SB = Instance.new("TextBox", GenLeft)
+SB.Size = UDim2.new(0, 280, 0, 30)
+SB.Position = UDim2.new(0, 10, 0, 35)
+SB.BackgroundColor3 = Color3.fromRGB(42, 42, 48)
+SB.PlaceholderText = "Evade Speed (Mặc định: 30)..."
+SB.Text = "30"
+SB.TextColor3 = Color3.fromRGB(255, 255, 255)
+SB.Font = Enum.Font.SourceSans
+SB.TextSize = 13
+Instance.new("UICorner", SB).CornerRadius = UDim.new(0, 6)
+SB.FocusLost:Connect(function() cs = tonumber(SB.Text) or 30 SB.Text = tostring(cs) end)
+
+createToggle(GenLeft, 75, "Speed Boost", true, function(v) s = v end)
+createToggle(GenLeft, 118, "Auto Bunny Hop (Auto Jump)", false, function(v) autoBhop = v end)
+createToggle(GenLeft, 161, "Noclip (Xuyên tường)", false, function(v) n = v end)
+
+local bv, bg
+local function cleanupFly()
+	if bv then bv:Destroy() bv = nil end
+	if bg then bg:Destroy() bg = nil end
+	local ch = LP.Character
+	if ch and ch:FindFirstChildOfClass("Humanoid") then
+		ch:FindFirstChildOfClass("Humanoid").PlatformStand = false
+	end
+end
+
+createToggle(GenLeft, 204, "Fly (Bay)", false, function(v) 
+	fl = v 
+	if not fl then cleanupFly() end
+end)
+
+local FlySB = Instance.new("TextBox", GenLeft)
+FlySB.Size = UDim2.new(0, 280, 0, 30)
+FlySB.Position = UDim2.new(0, 10, 0, 247)
+FlySB.BackgroundColor3 = Color3.fromRGB(42, 42, 48)
+FlySB.PlaceholderText = "Fly Speed (Mặc định: 60)..."
+FlySB.Text = "60"
+FlySB.TextColor3 = Color3.fromRGB(255, 255, 255)
+FlySB.Font = Enum.Font.SourceSans
+FlySB.TextSize = 13
+Instance.new("UICorner", FlySB).CornerRadius = UDim.new(0, 6)
+FlySB.FocusLost:Connect(function() cfs = tonumber(FlySB.Text) or 60 FlySB.Text = tostring(cfs) end)
+
+createToggle(GenLeft, 287, "Infinite Jump", false, function(v) j = v end)
+
+createToggle(GenRight, 35, "Full Bright (Xóa Đêm & Sương Mù)", false, function(v) 
+	fb = v 
+	if not fb then
+		LGT.Ambient = Color3.fromRGB(127, 127, 127)
+		LGT.OutdoorAmbient = Color3.fromRGB(127, 127, 127)
+		LGT.Brightness = 1
+		LGT.FogEnd = 100000
+	end
+end)
+createToggle(GenRight, 78, "3rd Person Camera (Zoom Out)", true, function(v) c3 = v end)
+createToggle(GenRight, 121, "Auto Respawn (Hồi sinh tự động)", true, function(v) autoRespawn = v end)
+
+-- --- TRANG TELEPORT ---
+local TPCol1 = createColumn(TeleportPage, 0, "📍 Teleport Players 📍")
+local TPCol2 = createColumn(TeleportPage, 316, "🚨 Safe Spots 🚨")
+
+local SFP = Instance.new("Frame", TPCol1)
+SFP.Position = UDim2.new(0, 10, 0, 35)
+SFP.Size = UDim2.new(0, 280, 0, 290)
+SFP.BackgroundTransparency = 1
+local SLP = Instance.new("UIListLayout", SFP)
+SLP.Padding = UDim.new(0, 4)
+
+-- --- TRANG ESP VISUALS ---
+local ESPCol1 = createColumn(ESPVisualsPage, 0, "👹 Nextbot ESP 👹")
+local ESPCol2 = createColumn(ESPVisualsPage, 316, "👥 Player ESP 👥")
+
+local function clearNextbotESP()
+	for _, o in ipairs(W:GetDescendants()) do
+		if o.Name == "Nextbot_ESP" or o.Name == "Nextbot_Tag" then o:Destroy() end
+	end
+end
+
+local function clearPlayerESP()
+	for _, p in ipairs(P:GetPlayers()) do
+		if p.Character then
+			local h = p.Character:FindFirstChild("Evade_Player_ESP") if h then h:Destroy() end
+			local hd = p.Character:FindFirstChild("Head")
+			if hd and hd:FindFirstChild("Player_Tag") then hd.Player_Tag:Destroy() end
+		end
+	end
+end
+
+createToggle(ESPCol1, 35, "ESP Nextbots (Bot Đỏ)", true, function(v) ce = v if not ce then clearNextbotESP() end end)
+createToggle(ESPCol2, 35, "ESP Players (Người chơi)", true, function(v) e = v if not e then clearPlayerESP() end end)
+
+-- --- TRANG SETTINGS ---
+local SettingsCol1 = createColumn(SettingsPage, 0, "🛠️ Configurations 🛠️")
+
+local orgMat, orgShad = {}, {}
+local function doLagFix(state)
+	if state then
+		settings().Physics.PhysicsEnvironmentalThrottle = Enum.EnviromentalPhysicsThrottle.Always
+		LGT.GlobalShadows = false
+		for _, v in ipairs(W:GetDescendants()) do
+			if v:IsA("BasePart") then
+				if not orgMat[v] then orgMat[v] = v.Material end
+				if v.CastShadow then orgShad[v] = v.CastShadow v.CastShadow = false end
+				v.Material = Enum.Material.SmoothPlastic
+			elseif v:IsA("Decal") or v:IsA("Texture") then v.Transparency = 1
+			elseif v:IsA("ParticleEmitter") or v:IsA("Sparkles") or v:IsA("Fire") or v:IsA("Smoke") then v.Enabled = false end
+		end
+	else
+		settings().Physics.PhysicsEnvironmentalThrottle = Enum.EnviromentalPhysicsThrottle.Default
+		LGT.GlobalShadows = true
+		for _, v in ipairs(W:GetDescendants()) do
+			if v:IsA("BasePart") then
+				if orgMat[v] then v.Material = orgMat[v] end
+				if orgShad[v] ~= nil then v.CastShadow = orgShad[v] end
+			elseif v:IsA("Decal") or v:IsA("Texture") then v.Transparency = 0
+			elseif v:IsA("ParticleEmitter") or v:IsA("Sparkles") or v:IsA("Fire") or v:IsA("Smoke") then v.Enabled = true end
+		end
+		table.clear(orgMat)
+		table.clear(orgShad)
+	end
+end
+
+createToggle(SettingsCol1, 35, "Low Graphics (FPS Boost)", false, function(v) lf = v doLagFix(lf) end)
+
+-- --- CẬP NHẬT DANH SÁCH TELEPORT & ESP ---
+function upP()
+	for _, i in ipairs(SFP:GetChildren()) do if i:IsA("TextButton") then i:Destroy() end end
+	for _, p in ipairs(P:GetPlayers()) do
+		if p ~= LP then
+			local b = Instance.new("TextButton", SFP)
+			b.Size = UDim2.new(1, 0, 0, 25)
+			b.BackgroundColor3 = Color3.fromRGB(42, 42, 48)
+			b.Text = "TP to " .. p.Name
+			b.TextColor3 = Color3.fromRGB(255, 255, 255)
+			b.Font = Enum.Font.SourceSans
+			b.TextSize = 12
+			Instance.new("UICorner", b).CornerRadius = UDim.new(0, 4)
+			b.MouseButton1Click:Connect(function()
+				if p.Character and p.Character:FindFirstChild("HumanoidRootPart") and LP.Character and LP.Character:FindFirstChild("HumanoidRootPart") then
+					LP.Character.HumanoidRootPart.CFrame = p.Character.HumanoidRootPart.CFrame + Vector3.new(0, 3, 0)
+				end
+			end)
+		end
+	end
+	TPCol1.CanvasSize = UDim2.new(0, 0, 0, SLP.AbsoluteContentSize.Y + 40)
+end
+
+-- Floating Button Toggle (Đã thay nút hình người chạy 🏃 bằng ảnh Meme Mèo)
+local ToggleButton = Instance.new("ImageButton")
+ToggleButton.Parent = ScreenGui
+ToggleButton.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+ToggleButton.Position = UDim2.new(0, 50, 0, 250)
+ToggleButton.Size = UDim2.new(0, 48, 0, 48)
+ToggleButton.Image = CAT_MEME_URL
+Instance.new("UICorner", ToggleButton).CornerRadius = UDim.new(0, 8)
+
+local ToggleStroke = Instance.new("UIStroke", ToggleButton)
+ToggleStroke.Color = Color3.fromRGB(255, 60, 60)
+ToggleStroke.Thickness = 1.5
+
+ToggleButton.MouseButton1Click:Connect(function()
+	MainFrame.Visible = not MainFrame.Visible
+end)
+
+-- Hàm Kéo Thả Drag
+local function makeDraggable(frame)
+	local dragging, dragInput, dragStart, startPos
+	frame.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			dragging = true dragStart = input.Position startPos = frame.Position
+			input.Changed:Connect(function() if input.UserInputState == Enum.UserInputState.End then dragging = false end end)
+		end
+	end)
+	frame.InputChanged:Connect(function(input) if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then dragInput = input end end)
+	U.InputChanged:Connect(function(input)
+		if input == dragInput and dragging then
+			local delta = input.Position - dragStart
+			frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+		end
+	end)
+end
+
+makeDraggable(MainFrame)
+makeDraggable(ToggleButton)
+
+GS.MenuOpened:Connect(function() ScreenGui.Enabled = true end)
+GS.MenuClosed:Connect(function() ScreenGui.Enabled = true end)
+
+U.InputBegan:Connect(function(i, g)
+	if i.KeyCode == Enum.KeyCode.RightControl or i.KeyCode == Enum.KeyCode.LeftControl then
+		MainFrame.Visible = not MainFrame.Visible
+	end
+end)
+
+U.JumpRequest:Connect(function() 
+	if j and LP.Character then 
+		local h = LP.Character:FindFirstChildOfClass("Humanoid") 
+		if h then h:ChangeState(Enum.HumanoidStateType.Jumping) end 
+	end 
+end)
+
+task.spawn(function()
+	while true do
+		upP()
+		task.wait(3)
+	end
+end)
+
+-- --- LOOP CHÍNH TỐI ƯU CHO EVADE ---
+R.Stepped:Connect(function()
+	local ch = LP.Character
+	if not ch then return end
+
+	local hu = ch:FindFirstChildOfClass("Humanoid")
+	local hr = ch:FindFirstChild("HumanoidRootPart")
+
+	-- Tự động Respawn trong Evade
+	if autoRespawn and LP.PlayerGui:FindFirstChild("RespawnGui") then
+		local btn = LP.PlayerGui.RespawnGui:FindFirstChild("RespawnButton", true)
+		if btn and btn:IsA("TextButton") and btn.Visible then
+			btn:Click()
+		end
+	end
+
+	-- FullBright & Clear Fog
+	if fb then
+		LGT.Ambient = Color3.fromRGB(255, 255, 255)
+		LGT.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
+		LGT.Brightness = 3
+		LGT.FogEnd = 9e9
+	end
+
+	if c3 then 
+		LP.CameraMode = Enum.CameraMode.Classic 
+		if LP.CameraMaxZoomDistance < 40 then LP.CameraMaxZoomDistance = 40 end 
+	end
+
+	if n then 
+		for _, p in ipairs(ch:GetDescendants()) do 
+			if p:IsA("BasePart") and p.CanCollide then p.CanCollide = false end 
+		end 
+	end
+
+	-- Xử lý Tốc độ Evade chuẩn
+	if s and hu and hr and not fl then
+		if hu.MoveDirection.Magnitude > 0 then
+			hr.CFrame = hr.CFrame + (hu.MoveDirection * (cs / 50))
+		end
+	end
+
+	-- Auto Bunny Hop
+	if autoBhop and hu and hu.FloorMaterial ~= Enum.Material.Air then
+		if hu.MoveDirection.Magnitude > 0 then
+			hu:ChangeState(Enum.HumanoidStateType.Jumping)
+		end
+	end
+
+	-- Fly Mode với Tốc độ tùy chỉnh
+	if fl and hr and hu then
+		if not bv or bv.Parent ~= hr then
+			if bv then bv:Destroy() end
+			bv = Instance.new("BodyVelocity")
+			bv.MaxForce = Vector3.new(1e9, 1e9, 1e9)
+			bv.Velocity = Vector3.new(0, 0, 0)
+			bv.Parent = hr
+		end
+		if not bg or bg.Parent ~= hr then
+			if bg then bg:Destroy() end
+			bg = Instance.new("BodyGyro")
+			bg.MaxTorque = Vector3.new(1e9, 1e9, 1e9)
+			bg.CFrame = workspace.CurrentCamera.CFrame
+			bg.Parent = hr
+		end
+
+		hu.PlatformStand = true
+		local cm = workspace.CurrentCamera
+		local md = Vector3.new(0, 0, 0)
+
+		if U:IsKeyDown(Enum.KeyCode.W) then md = md + cm.CFrame.LookVector end
+		if U:IsKeyDown(Enum.KeyCode.S) then md = md - cm.CFrame.LookVector end
+		if U:IsKeyDown(Enum.KeyCode.A) then md = md - cm.CFrame.RightVector end
+		if U:IsKeyDown(Enum.KeyCode.D) then md = md + cm.CFrame.RightVector end
+		if U:IsKeyDown(Enum.KeyCode.Space) then md = md + Vector3.new(0, 1, 0) end
+		if U:IsKeyDown(Enum.KeyCode.LeftShift) then md = md - Vector3.new(0, 1, 0) end
+
+		if md.Magnitude == 0 and hu.MoveDirection.Magnitude > 0 then md = hu.MoveDirection end
+
+		bv.Velocity = md.Magnitude > 0 and md.Unit * cfs or Vector3.new(0, 0, 0)
+		bg.CFrame = cm.CFrame
+	end
+
+	-- Nextbot ESP
+	if ce then
+		local gameFolder = W:FindFirstChild("Game") or W:FindFirstChild("Bots") or W
+		for _, v in ipairs(gameFolder:GetDescendants()) do
+			if v:IsA("Model") and (v:FindFirstChild("Type") or v:FindFirstChild("Bot") or string.find(string.lower(v.Name), "bot")) then
+				local targetPart = v.PrimaryPart or v:FindFirstChildWhichIsA("BasePart")
+				if targetPart then
+					local h = v:FindFirstChild("Nextbot_ESP")
+					if not h then
+						h = Instance.new("Highlight", v)
+						h.Name = "Nextbot_ESP"
+						h.FillColor = Color3.fromRGB(255, 30, 30)
+						h.FillTransparency = 0.4
+						h.OutlineColor = Color3.fromRGB(255, 255, 255)
+						h.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+					end
+
+					local bb = targetPart:FindFirstChild("Nextbot_Tag")
+					if not bb then
+						bb = Instance.new("BillboardGui", targetPart)
+						bb.Name = "Nextbot_Tag"
+						bb.AlwaysOnTop = true
+						bb.Size = UDim2.new(0, 120, 0, 25)
+						bb.StudsOffset = Vector3.new(0, 3, 0)
+
+						local tl = Instance.new("TextLabel", bb)
+						tl.Name = "Label"
+						tl.Size = UDim2.new(1, 0, 1, 0)
+						tl.BackgroundTransparency = 1
+						tl.Font = Enum.Font.GothamBold
+						tl.TextSize = 12
+						tl.TextColor3 = Color3.fromRGB(255, 30, 30)
+						tl.TextStrokeTransparency = 0
+					end
+
+					local label = bb:FindFirstChild("Label")
+					if label and hr then
+						local dist = math.floor((hr.Position - targetPart.Position).Magnitude)
+						label.Text = "👹 " .. v.Name .. " [" .. tostring(dist) .. "m]"
+					end
+				end
+			end
+		end
+	end
+
+	-- Player ESP
+	if e then
+		for _, p in ipairs(P:GetPlayers()) do
+			if p ~= LP and p.Character then
+				local pChar = p.Character
+				local pHr = pChar:FindFirstChild("HumanoidRootPart")
+				local hd = pChar:FindFirstChild("Head")
+
+				if pHr and hd then
+					local h = pChar:FindFirstChild("Evade_Player_ESP")
+					if not h then
+						h = Instance.new("Highlight", pChar)
+						h.Name = "Evade_Player_ESP"
+						h.FillColor = Color3.fromRGB(50, 255, 100)
+						h.FillTransparency = 0.5
+						h.OutlineColor = Color3.fromRGB(255, 255, 255)
+						h.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+					end
+
+					local bb = hd:FindFirstChild("Player_Tag")
+					if not bb then
+						bb = Instance.new("BillboardGui", hd)
+						bb.Name = "Player_Tag"
+						bb.AlwaysOnTop = true
+						bb.Size = UDim2.new(0, 120, 0, 25)
+						bb.StudsOffset = Vector3.new(0, 3, 0)
+
+						local tl = Instance.new("TextLabel", bb)
+						tl.Name = "Label"
+						tl.Size = UDim2.new(1, 0, 1, 0)
+						tl.BackgroundTransparency = 1
+						tl.Font = Enum.Font.GothamBold
+						tl.TextSize = 11
+						tl.TextColor3 = Color3.fromRGB(50, 255, 100)
+						tl.TextStrokeTransparency = 0
+					end
+
+					local label = bb:FindFirstChild("Label")
+					if label and hr then
+						local dist = math.floor((hr.Position - pHr.Position).Magnitude)
+						label.Text = p.Name .. " [" .. tostring(dist) .. "m]"
+					end
+				end
+			end
+		end
+	end
+end)
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/xshibba/MaruBitkub/refs/heads/main/Mobile.lua"))()
