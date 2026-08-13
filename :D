@@ -1,6 +1,3 @@
--- This file was generated at discord.gg/syncrypt
--- MoonVeil Deobfuscator Created By Skynex Okinbru
-
 local GameId = game.GameId
 
 if tostring(GameId) ~= "140424985545402" then
