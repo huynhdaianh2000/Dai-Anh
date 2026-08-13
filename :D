@@ -1,0 +1,42 @@
+
+repeat
+	task.wait()
+until game:IsLoaded()
+
+local PlaceId = game.PlaceId
+local v2 = ({
+	[2753915549] = "bloxfruits.lua",
+	[4442272183] = "bloxfruits.lua",
+	[7449423635] = "bloxfruits.lua",
+	[73902483975735] = "bloxfruits.lua",
+	[85211729168715] = "bloxfruits.lua",
+	[79091703265657] = "bloxfruits.lua",
+	[100117331123089] = "bloxfruits.lua",
+	[286090429] = "arsenal.lua",
+	[95645135481640] = "arsenal.lua",
+	[3101667897] = "los.lua",
+	[3276265788] = "los.lua",
+	[3232996272] = "los.lua",
+	[10449761463] = "TSBkaitun.lua",
+	[114204398207377] = "SZA.lua",
+	[98927955463992] = "SZA.lua",
+	[11145865512] = "CDU.lua",
+	[79268393072444] = "SellLemons.lua",
+})[PlaceId]
+
+if v2 then
+	local v3 = "https://raw.githubusercontent.com/darksoulhubcode/whoami/refs/heads/main/" .. v2
+
+	loadstring(game:HttpGet(v3))()
+
+	return
+end
+
+local LocalPlayer = game.Players.LocalPlayer
+
+while not LocalPlayer do
+	task.wait()
+	LocalPlayer = game.Players.LocalPlayer
+end
+
+LocalPlayer:Kick("This game is not supported.\nJoin our Discord for more info. https://discord.gg/HBxR33RVgf")
