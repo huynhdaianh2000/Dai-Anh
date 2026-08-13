@@ -1,5 +1,4 @@
--- This file was generated at discord.gg/syncrypt
--- MoonVeil Deobfuscator Created By Skynex Okinbru
+
 
 local Players, ReplicatedStorage, RunService, UserInputService, TweenService, HttpService, VirtualInputManager, LocalPlayer, v12, v29, v31, t2, u36, v64, v68, u69, t3, g218, v219, v220, g494, v495, v496
 
