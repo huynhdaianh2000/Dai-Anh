@@ -1,42 +1,775 @@
+-- This file was generated at discord.gg/syncrypt
+-- MoonVeil Deobfuscator Created By Skynex Okinbru
 
-repeat
-	task.wait()
-until game:IsLoaded()
+local GameId = game.GameId
 
-local PlaceId = game.PlaceId
-local v2 = ({
-	[2753915549] = "bloxfruits.lua",
-	[4442272183] = "bloxfruits.lua",
-	[7449423635] = "bloxfruits.lua",
-	[73902483975735] = "bloxfruits.lua",
-	[85211729168715] = "bloxfruits.lua",
-	[79091703265657] = "bloxfruits.lua",
-	[100117331123089] = "bloxfruits.lua",
-	[286090429] = "arsenal.lua",
-	[95645135481640] = "arsenal.lua",
-	[3101667897] = "los.lua",
-	[3276265788] = "los.lua",
-	[3232996272] = "los.lua",
-	[10449761463] = "TSBkaitun.lua",
-	[114204398207377] = "SZA.lua",
-	[98927955463992] = "SZA.lua",
-	[11145865512] = "CDU.lua",
-	[79268393072444] = "SellLemons.lua",
-})[PlaceId]
+if tostring(GameId) ~= "140424985545402" then
+	local PlaceId = game.PlaceId
 
-if v2 then
-	local v3 = "https://raw.githubusercontent.com/darksoulhubcode/whoami/refs/heads/main/" .. v2
-
-	loadstring(game:HttpGet(v3))()
-
-	return
+	if tostring(PlaceId) ~= "140424985545402" then
+		return
+	end
 end
 
-local LocalPlayer = game.Players.LocalPlayer
-
-while not LocalPlayer do
-	task.wait()
-	LocalPlayer = game.Players.LocalPlayer
+for i = 1, 10 do
+	print(i)
 end
 
-LocalPlayer:Kick("This game is not supported.\nJoin our Discord for more info. https://discord.gg/HBxR33RVgf")
+for k, v in pairs({
+	"h",
+	"e",
+	"l",
+	"l",
+	"o",
+}) do
+	print(k, v)
+end
+print("hello world!")
+
+local v7 = loadstring(game:HttpGet("https://raw.githubusercontent.com/unrexl/Scripts/refs/heads/main/UiLibaryNew"))()
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local Workspace = game:GetService("Workspace")
+local VirtualUser = game:GetService("VirtualUser")
+local LocalPlayer = Players.LocalPlayer
+local u14 = LocalPlayer
+local u15 = Workspace
+
+local function v16()
+	local Character = u14.Character
+
+	if Character then
+		local Humanoid = Character:FindFirstChild("Humanoid")
+
+		if Humanoid and Humanoid.SeatPart then
+			local SeatPartParent = Humanoid.SeatPart.Parent
+
+			while SeatPartParent and not SeatPartParent:IsA("Model") and SeatPartParent.Parent ~= u15 do
+				SeatPartParent = SeatPartParent.Parent
+			end
+
+			if SeatPartParent and SeatPartParent ~= u15 then
+				return SeatPartParent, SeatPartParent.PrimaryPart or SeatPartParent:FindFirstChildWhichIsA("BasePart")
+			end
+
+			return nil, nil
+		end
+
+		return nil, nil
+	end
+
+	return nil, nil
+end
+
+local function u18(p1, p2, p3)
+	local v95 = math.clamp(p3, 0, 1)
+	local v96 = v95 * v95
+	local _ = 2 * v95
+
+	return p1:Lerp(p2, v96 * p3)
+end
+
+local u19 = v16
+
+local function v20(p4)
+	local v99, v100 = u19()
+
+	if v99 and v100 then
+		if not v99.PrimaryPart then
+			local v101 = v100.CFrame:ToObjectSpace(p4)
+
+			for _, descendant in ipairs(v99:GetDescendants()) do
+				if descendant:IsA("BasePart") and descendant ~= v100 then
+					descendant.CFrame = descendant.CFrame * v101
+				end
+			end
+
+			v100.CFrame = p4
+		else
+			v99:PivotTo(p4 * v99.PrimaryPart.CFrame:ToObjectSpace(v100.CFrame))
+		end
+
+		return true
+	end
+
+	return false
+end
+local u23 = Players
+local u24 = LocalPlayer
+
+local function v25()
+	local t1 = {}
+
+	for _, player in ipairs(u23:GetPlayers()) do
+		if player ~= u24 then
+			local playerName = player.Name
+
+			table.insert(t1, playerName)
+		end
+	end
+
+	return t1
+end
+
+local u26 = Players
+
+local function v27(p5)
+	for _, player in ipairs(u26:GetPlayers()) do
+		if p5 == player.Name then
+			local Character = player.Character
+
+			if Character then
+				return Character:FindFirstChild("HumanoidRootPart")
+			end
+		end
+	end
+
+	return nil
+end
+
+getgenv().c4rl_VehicleFly = false
+getgenv().c4rl_VehicleFlySpeed = 80
+getgenv().c4rl_AnnoyStop = false
+
+local v28 = v7:CreateWindow({
+	Title = "c4rl | Vehicle Hub",
+	Subtitle = "made by c4rl / 9b7m",
+})
+local v29 = v28:CreateTab("Fly", "plane")
+local v30 = v28:CreateTab("Teleport", "map-pin")
+local v31 = v28:CreateTab("Annoy", "users")
+local v32 = v28:CreateTab("Misc", "settings")
+
+v29:Slider({
+	Text = "Fly Speed",
+	Min = 20,
+	Max = 500,
+	Default = 80,
+	Step = 5,
+	Callback = function(p6)
+		getgenv().c4rl_VehicleFlySpeed = p6
+	end,
+})
+
+local u33 = nil
+local u34 = nil
+local u35 = nil
+local u36 = nil
+local t2 = {
+	Text = "Vehicle Fly",
+	Default = false,
+}
+local u38 = v16
+local u39 = RunService
+local u40 = Workspace
+
+function t2.Callback(p7)
+	getgenv().c4rl_VehicleFly = p7
+
+	if not p7 then
+		if u34 then
+			u34:Disconnect()
+			u34 = nil
+		end
+
+		if u35 then
+			u35:Disconnect()
+			u35 = nil
+		end
+
+		if u36 then
+			u36:Disconnect()
+			u36 = nil
+		end
+
+		if u33 then
+			u33:Destroy()
+			u33 = nil
+		end
+
+		return
+	end
+
+	task.spawn(function()
+		if getgenv().c4rl_VehicleFly then
+			local _, v160 = u38()
+
+			if v160 then
+				local v161 = v160.CFrame - v160.CFrame.Position
+
+				u33 = Instance.new("BodyVelocity")
+				u33.MaxForce = Vector3.new(1e999, 1e999, 1e999)
+				u33.Velocity = Vector3.new(0, 0, 0)
+				u33.Parent = v160
+
+				local t3 = {}
+				local InputBegan = UserInputService.InputBegan
+				local u164 = t3
+
+				u34 = InputBegan:Connect(function(p8, p9)
+					if not p9 then
+						if p8.KeyCode then
+							u164[p8.KeyCode] = true
+						end
+
+						return
+					end
+				end)
+
+				local InputEnded = UserInputService.InputEnded
+				local u166 = t3
+
+				u35 = InputEnded:Connect(function(p10)
+					if p10.KeyCode then
+						u166[p10.KeyCode] = nil
+					end
+				end)
+
+				local RenderStepped = u39.RenderStepped
+				local u168 = t3
+				local u169 = v161
+
+				u36 = RenderStepped:Connect(function()
+					if getgenv().c4rl_VehicleFly then
+						pcall(function()
+							local _, v206 = u38()
+
+							if v206 and u33 and u33.Parent then
+								if v206 ~= u33.Parent then
+									u33.Parent = v206
+								end
+
+								local CurrentCameraCFrame = u40.CurrentCamera.CFrame
+								local vector3 = Vector3.new(0, 0, 0)
+
+								if u168[Enum.KeyCode.W] then
+									vector3 = vector3 + CurrentCameraCFrame.LookVector
+								end
+
+								if u168[Enum.KeyCode.S] then
+									vector3 = vector3 - CurrentCameraCFrame.LookVector
+								end
+
+								if u168[Enum.KeyCode.A] then
+									vector3 = vector3 - CurrentCameraCFrame.RightVector
+								end
+
+								if u168[Enum.KeyCode.D] then
+									vector3 = vector3 + CurrentCameraCFrame.RightVector
+								end
+
+								if u168[Enum.KeyCode.Space] then
+									vector3 = vector3 + Vector3.new(0, 1, 0)
+								end
+
+								if u168[Enum.KeyCode.LeftShift] then
+									vector3 = vector3 - Vector3.new(0, 1, 0)
+								end
+
+								u33.Velocity = vector3 * getgenv().c4rl_VehicleFlySpeed
+								v206.CFrame = CFrame.new(v206.Position) * u169
+								v206.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
+
+								return
+							end
+						end)
+
+						return
+					end
+				end)
+
+				return
+			end
+
+			return
+		end
+	end)
+end
+
+v29:Toggle(t2)
+v30:Section("Waypoints")
+
+local t4 = {}
+local u42 = nil
+
+v30:TextBox({
+	Text = "Waypoint Name",
+	Placeholder = "e.g. base",
+	Callback = function(p11)
+		u42 = p11
+	end,
+})
+
+local t5 = {
+	Text = "Save Waypoint",
+}
+local u44 = v16
+local u45 = t4
+local u46 = v28
+
+function t5.Callback()
+	if u42 and u42 ~= "" then
+		local _, v120 = u44()
+
+		if v120 then
+			u45[u42] = v120.Position
+			local t6 = {
+				Title = "Waypoint Saved",
+			}
+			local Position = v120.Position
+
+			t6.Message = u42 .. " at " .. tostring(Position)
+			t6.Type = "Success"
+			t6.Duration = 2
+			u46:Notify(t6)
+
+			return
+		end
+
+		return
+	end
+end
+
+v30:Button(t5)
+
+local t7 = {
+	Text = "Delete Waypoint",
+}
+local u48 = t4
+local u49 = v28
+
+function t7.Callback()
+	if u42 and u42 ~= "" then
+		if u48[u42] then
+			u48[u42] = nil
+			u49:Notify({
+				Title = "Waypoint Deleted",
+				Message = u42,
+				Type = "Info",
+				Duration = 2,
+			})
+		end
+
+		return
+	end
+end
+
+v30:Button(t7)
+
+local t8 = {
+	"None",
+}
+local _ = v30:Dropdown({
+	Text = "Waypoints",
+	Options = t8,
+	Default = "None",
+	Callback = function(p12)
+		if p12 ~= "None" then
+			u42 = p12
+
+			return
+		end
+	end,
+})
+local t9 = {
+	Text = "Refresh Waypoints",
+}
+local u54 = t4
+
+function t9.Callback()
+	local t10 = {
+		"None",
+	}
+
+	for k, _ in pairs(u54) do
+		table.insert(t10, k)
+	end
+end
+
+v30:Button(t9)
+
+local t11 = {
+	Text = "Teleport to Waypoint",
+}
+local u56 = t4
+local u57 = v16
+local u58 = v20
+
+function t11.Callback()
+	if u42 and u42 ~= "None" and u56[u42] then
+		local v132 = u56[u42]
+		local _, v134 = u57()
+
+		if v134 then
+			local cFrame = CFrame.new(v132 + Vector3.new(0, 5, 0))
+
+			u58(cFrame)
+
+			return
+		end
+
+		return
+	end
+end
+
+v30:Button(t11)
+v30:Separator()
+v30:Section("Player Teleport")
+
+local s1 = ""
+
+v30:Dropdown({
+	Text = "Select Player",
+	Options = v25(),
+	Default = "",
+	Callback = function(p13)
+		s1 = p13
+	end,
+})
+
+local t12 = {
+	Text = "Refresh Players",
+}
+local u61 = v25
+
+function t12.Callback()
+	u61()
+end
+
+v30:Button(t12)
+
+local t13 = {
+	Text = "Teleport to Player",
+}
+local u63 = v27
+local u64 = v16
+local u65 = v20
+
+function t13.Callback()
+	if s1 ~= "" then
+		local v137 = u63(s1)
+
+		if v137 then
+			local Position = v137.Position
+			local _, v140 = u64()
+
+			if v140 then
+				local cFrame = CFrame.new(Position + Vector3.new(0, 5, 0))
+
+				u65(cFrame)
+
+				return
+			end
+
+			return
+		end
+
+		return
+	end
+end
+
+v30:Button(t13)
+v31:Dropdown({
+	Text = "Select Player",
+	Options = v25(),
+	Default = "",
+	Callback = function(p14)
+		getgenv().c4rl_AnnoyTarget = p14
+	end,
+})
+v31:Button({
+	Text = "Refresh Players",
+	Callback = function() end,
+})
+
+local t14 = {
+	Text = "Start Annoying",
+}
+local u67 = v27
+local u68 = v16
+local u69 = RunService
+local u70 = v20
+
+function t14.Callback()
+	local c4rl_AnnoyTarget = getgenv().c4rl_AnnoyTarget
+
+	if c4rl_AnnoyTarget and c4rl_AnnoyTarget ~= "" then
+		getgenv().c4rl_AnnoyStop = false
+
+		local spawn = task.spawn
+		local u145 = c4rl_AnnoyTarget
+
+		spawn(function()
+			local t15 = {
+				Vector3.new(8, 0, 0),
+				Vector3.new(-8, 0, 0),
+				Vector3.new(0, 0, 8),
+				Vector3.new(0, 0, -8),
+				Vector3.new(8, 0, 8),
+				Vector3.new(-8, 0, -8),
+				Vector3.new(-8, 0, 8),
+				Vector3.new(8, 0, -8),
+			}
+
+			while not getgenv().c4rl_AnnoyStop do
+				local v171 = u67(u145)
+
+				if v171 then
+					local Position = v171.Position
+
+					for _, v in ipairs(t15) do
+						if getgenv().c4rl_AnnoyStop then
+							break
+						end
+
+						local v175 = Position + v + Vector3.new(0, 3, 0)
+						local _, v177 = u68()
+
+						if v177 then
+							local CFrame2 = v177.CFrame
+							local cFrame = CFrame.new(v175)
+							local n1 = 0
+
+							while n1 < 1 and not getgenv().c4rl_AnnoyStop do
+								n1 = n1 + 100 * u69.Heartbeat:Wait()
+
+								if n1 > 1 then
+									n1 = 1
+								end
+
+								u70(u18(CFrame2, cFrame, n1))
+							end
+
+							task.wait(0.1)
+						else
+							task.wait(0.5)
+						end
+					end
+
+					task.wait(0.1)
+				else
+					task.wait(0.5)
+				end
+			end
+		end)
+
+		return
+	end
+end
+
+v31:Button(t14)
+v31:Button({
+	Text = "Stop Annoying",
+	Callback = function()
+		getgenv().c4rl_AnnoyStop = true
+	end,
+})
+v32:Section("Player")
+getgenv().c4rl_WS = 16
+getgenv().c4rl_WS_Lock = false
+
+local u71 = nil
+local t16 = {
+	Text = "Walk Speed",
+	Min = 16,
+	Max = 200,
+	Default = 16,
+	Step = 1,
+}
+local u73 = LocalPlayer
+
+function t16.Callback(p15)
+	getgenv().c4rl_WS = p15
+
+	if getgenv().c4rl_WS_Lock then
+		local _pcall = pcall
+		local u148 = p15
+
+		pcall(function()
+			local v181 = u73.Character and u73.Character:FindFirstChild("Humanoid")
+
+			if v181 then
+				v181.WalkSpeed = u148
+			end
+		end)
+	end
+end
+
+v32:Slider(t16)
+
+local t17 = {
+	Text = "Lock Walk Speed",
+	Default = false,
+}
+local u75 = LocalPlayer
+
+function t17.Callback(p16)
+	getgenv().c4rl_WS_Lock = p16
+
+	if not p16 then
+		if u71 then
+			u71:Disconnect()
+			u71 = nil
+		end
+
+		return
+	end
+
+	pcall(function()
+		local v182 = u75.Character and u75.Character:FindFirstChild("Humanoid")
+
+		if v182 then
+			v182.WalkSpeed = getgenv().c4rl_WS
+		end
+	end)
+	u71 = u75.CharacterAdded:Connect(function(character)
+		character:WaitForChild("Humanoid").WalkSpeed = getgenv().c4rl_WS
+	end)
+end
+
+v32:Toggle(t17)
+getgenv().c4rl_JP = 50
+getgenv().c4rl_JP_Lock = false
+
+local u76 = nil
+local t18 = {
+	Text = "Jump Power",
+	Min = 50,
+	Max = 500,
+	Default = 50,
+	Step = 1,
+}
+local u78 = LocalPlayer
+
+function t18.Callback(p17)
+	getgenv().c4rl_JP = p17
+
+	if getgenv().c4rl_JP_Lock then
+		local _pcall = pcall
+		local u152 = p17
+
+		pcall(function()
+			local v184 = u78.Character and u78.Character:FindFirstChild("Humanoid")
+
+			if v184 then
+				v184.JumpPower = u152
+			end
+		end)
+	end
+end
+
+v32:Slider(t18)
+
+local t19 = {
+	Text = "Lock Jump Power",
+	Default = false,
+}
+local u80 = LocalPlayer
+
+function t19.Callback(p18)
+	getgenv().c4rl_JP_Lock = p18
+
+	if not p18 then
+		if u76 then
+			u76:Disconnect()
+			u76 = nil
+		end
+
+		return
+	end
+
+	pcall(function()
+		local v185 = u80.Character and u80.Character:FindFirstChild("Humanoid")
+
+		if v185 then
+			v185.JumpPower = getgenv().c4rl_JP
+		end
+	end)
+	u76 = u80.CharacterAdded:Connect(function(character)
+		character:WaitForChild("Humanoid").JumpPower = getgenv().c4rl_JP
+	end)
+end
+
+v32:Toggle(t19)
+v32:Separator()
+v32:Section("Utility")
+
+local u81 = nil
+local t20 = {
+	Text = "No Collision",
+	Default = false,
+}
+local u83 = LocalPlayer
+
+function t20.Callback(p19)
+	if not p19 then
+		if u81 then
+			u81:Disconnect()
+			u81 = nil
+		end
+
+		return
+	end
+
+	local Character = u83.Character
+	local _pcall = pcall
+	local u157 = Character
+
+	pcall(function()
+		for _, descendant in ipairs(u157:GetDescendants()) do
+			if descendant:IsA("BasePart") then
+				descendant.CanCollide = false
+			end
+		end
+	end)
+	u81 = u83.CharacterAdded:Connect(function(character)
+		character:WaitForChild("HumanoidRootPart")
+		task.wait(0.5)
+		local u194 = character
+
+		pcall(function()
+			for _, descendant in ipairs(u194:GetDescendants()) do
+				if descendant:IsA("BasePart") then
+					descendant.CanCollide = false
+				end
+			end
+		end)
+	end)
+end
+
+v32:Toggle(t20)
+
+local u84 = nil
+local t21 = {
+	Text = "Anti AFK",
+	Default = false,
+}
+local u86 = LocalPlayer
+
+function t21.Callback(p20)
+	if not p20 then
+		if u84 then
+			u84:Disconnect()
+			u84 = nil
+		end
+
+		return
+	end
+
+	u84 = u86.Idled:Connect(function()
+		VirtualUser:CaptureController()
+		local v196 = (function(...)
+			local t22 = { ... }
+
+			t22.n = select("#", ...)
+
+			return t22
+		end)(Vector2.new())
+
+		unpack(v196, 1, 1)
+		VirtualUser:ClickButton2(unpack(v196, 1, v196.n))
+	end)
+end
+
+v32:Toggle(t21)
