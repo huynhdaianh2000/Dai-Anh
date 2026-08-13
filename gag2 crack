@@ -1,0 +1,3717 @@
+
+
+local RunService, UserInputService, HttpService, VirtualInputManager, LocalPlayer, v12, v29, v31, t2, u36, v52, t4, t5, t26, v116, v117, u118, v123, v125, v130, v132, v140, v145, v149, u155, v158, u161, u163, v179, v185, t63, v199, v203, g223, v224, v225, g430, v431, v432
+
+do
+	local t3
+
+	do
+		local ReplicatedStorage
+
+		do
+			local TweenService
+			local StarterGui
+
+			do
+				local v40
+
+				do
+					local u13, u14
+
+					do
+						local t1 = {
+							[97598239454123] = true,
+							[10200395747] = true,
+						}
+
+						do
+							local Players = game:GetService("Players")
+
+							ReplicatedStorage = game:GetService("ReplicatedStorage")
+							RunService = game:GetService("RunService")
+							StarterGui = game:GetService("StarterGui")
+							UserInputService = game:GetService("UserInputService")
+							TweenService = game:GetService("TweenService")
+							HttpService = game:GetService("HttpService")
+							VirtualInputManager = game:GetService("VirtualInputManager")
+							LocalPlayer = Players.LocalPlayer
+						end
+
+						do
+							local GameId = game.GameId
+
+							v12 = "RoninHub/Settings/GrowAGarden2_" .. tostring(GameId) .. ".txt"
+						end
+
+						g223 = nil
+						v224 = nil
+						v225 = nil
+						g430 = nil
+						v431 = nil
+						v432 = nil
+
+						if makefolder and isfolder then
+							pcall(function()
+								if not isfolder("RoninHub") then
+									makefolder("RoninHub")
+								end
+
+								if not isfolder("RoninHub/Key") then
+									makefolder("RoninHub/Key")
+								end
+
+								if not isfolder("RoninHub/Settings") then
+									makefolder("RoninHub/Settings")
+								end
+							end)
+						end
+
+						u13 = v12
+						u14 = HttpService
+
+						if not t1[game.GameId] then
+							local ScreenGui, Frame
+
+							do
+								ScreenGui = Instance.new("ScreenGui", game:GetService("CoreGui"))
+								ScreenGui.Name = "RH_NS"
+								ScreenGui.ResetOnSpawn = false
+								Frame = Instance.new("Frame", ScreenGui)
+								Frame.Size = UDim2.new(0, 380, 0, 110)
+								Frame.Position = UDim2.new(0.5, -190, 0.5, -55)
+								Frame.BackgroundColor3 = Color3.fromRGB(18, 18, 22)
+								Frame.BorderSizePixel = 0
+								Instance.new("UICorner", Frame).CornerRadius = UDim.new(0, 12)
+
+								local TextLabel = Instance.new("TextLabel", Frame)
+
+								TextLabel.Size = UDim2.new(1, -20, 0.72, 0)
+								TextLabel.Position = UDim2.new(0, 10, 0.05, 0)
+								TextLabel.BackgroundTransparency = 1
+
+								local GameId = game.GameId
+
+								TextLabel.Text = "❌ Wrong game (ID "
+									.. tostring(GameId)
+									.. ")\nThis script is for Grow a Garden 2.\nJoin Discord — invite copied!"
+								TextLabel.TextColor3 = Color3.new(1, 1, 1)
+								TextLabel.Font = Enum.Font.GothamBold
+								TextLabel.TextSize = 12
+								TextLabel.TextWrapped = true
+								TextLabel.TextXAlignment = Enum.TextXAlignment.Center
+							end
+
+							local TextButton = Instance.new("TextButton", Frame)
+
+							TextButton.Size = UDim2.new(0.38, 0, 0, 28)
+							TextButton.Position = UDim2.new(0.31, 0, 0.76, 0)
+							TextButton.BackgroundColor3 = Color3.fromRGB(130, 0, 240)
+							TextButton.BorderSizePixel = 0
+							TextButton.Text = "Close"
+							TextButton.TextColor3 = Color3.new(1, 1, 1)
+							TextButton.Font = Enum.Font.GothamBold
+							TextButton.TextSize = 12
+							Instance.new("UICorner", TextButton).CornerRadius = UDim.new(0, 8)
+
+							if setclipboard then
+								pcall(setclipboard, "https://discord.gg/uuaFAm6AdE")
+							end
+
+							local MouseButton1Click = TextButton.MouseButton1Click
+							local u21 = ScreenGui
+
+							MouseButton1Click:Connect(function()
+								u21:Destroy()
+							end)
+
+							return
+						end
+
+						local u22 = HttpService
+
+						if
+							not (function()
+								local g477 = nil
+								local ok = nil
+								local result = nil
+
+								repeat
+									if g477 or isfile and (readfile and isfile("RoninHub/Key/Key.txt")) then
+										if not g477 then
+											ok, result = pcall(readfile, "RoninHub/Key/Key.txt")
+										end
+
+										if g477 or ok then
+											g477 = false
+
+											if result and result:gsub("%s+", "") ~= "" then
+												local v480 = result:gsub("%s+", "")
+												local v481 = syn and syn.request or (http and http.request or (http_request or request))
+
+												if v481 then
+													local _pcall = pcall
+													local u483 = v481
+													local u484 = v480
+													local v485, u486 = pcall(function()
+														return u483({
+															Url = "https://api.nebulauth.com/api/v1/keys/verify",
+															Method = "POST",
+															Headers = {
+																["Content-Type"] = "application/json",
+																Authorization = "Bearer mk_at_X0j8xxHfwaDwc94js7fnwqxOTlJ_Rr1e01QmiU4Lr2U",
+															},
+															Body = u22:JSONEncode({
+																key = u484,
+																requestId = u22:GenerateGUID(false),
+															}),
+														})
+													end)
+
+													if v485 and u486 then
+														local ok2, result2 = pcall(function()
+															return u22:JSONDecode(u486.Body)
+														end)
+
+														return ok2 and (result2 and result2.valid == true)
+													end
+
+													return false
+												end
+
+												return false
+											end
+
+											return false
+										end
+									end
+
+									result = nil
+									g477 = true
+								until not g477
+							end)()
+						then
+							local ScreenGui, TextButton
+
+							do
+								ScreenGui = Instance.new("ScreenGui", game:GetService("CoreGui"))
+								ScreenGui.Name = "RH_KE"
+								ScreenGui.ResetOnSpawn = false
+
+								local Frame = Instance.new("Frame", ScreenGui)
+
+								Frame.Size = UDim2.new(0, 340, 0, 90)
+								Frame.Position = UDim2.new(0.5, -170, 0.5, -45)
+								Frame.BackgroundColor3 = Color3.fromRGB(18, 18, 22)
+								Frame.BorderSizePixel = 0
+								Instance.new("UICorner", Frame).CornerRadius = UDim.new(0, 12)
+
+								local TextLabel = Instance.new("TextLabel", Frame)
+
+								TextLabel.Size = UDim2.new(1, -20, 0.65, 0)
+								TextLabel.Position = UDim2.new(0, 10, 0.05, 0)
+								TextLabel.BackgroundTransparency = 1
+								TextLabel.Text = "❌ Invalid or missing key!\nRun the Ronin Hub loader to authenticate."
+								TextLabel.TextColor3 = Color3.new(1, 1, 1)
+								TextLabel.Font = Enum.Font.GothamBold
+								TextLabel.TextSize = 12
+								TextLabel.TextWrapped = true
+								TextLabel.TextXAlignment = Enum.TextXAlignment.Center
+								TextButton = Instance.new("TextButton", Frame)
+							end
+
+							TextButton.Size = UDim2.new(0.38, 0, 0, 28)
+							TextButton.Position = UDim2.new(0.31, 0, 0.72, 0)
+							TextButton.BackgroundColor3 = Color3.fromRGB(130, 0, 240)
+							TextButton.BorderSizePixel = 0
+							TextButton.Text = "Close"
+							TextButton.TextColor3 = Color3.new(1, 1, 1)
+							TextButton.Font = Enum.Font.GothamBold
+							TextButton.TextSize = 12
+							Instance.new("UICorner", TextButton).CornerRadius = UDim.new(0, 8)
+
+							local MouseButton1Click = TextButton.MouseButton1Click
+							local u28 = ScreenGui
+
+							MouseButton1Click:Connect(function()
+								u28:Destroy()
+							end)
+
+							return
+						end
+
+						print("✅ [RH] Key verified — loading Ronin Hub…")
+						v29 = UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled
+
+						local v30 = v29 and "https://raw.githubusercontent.com/Ronin-Studios/Ronin-Hub/refs/heads/main/UI/Ronin-Hub-UILib_Mobile.lua"
+							or "https://raw.githubusercontent.com/Ronin-Studios/Ronin-Hub/refs/heads/main/UI/Ronin-Hub-UILib.lua"
+
+						v31 = loadstring(game:HttpGet(v30, true))()
+
+						if not v31 then
+							warn("[RH] UILib failed to load — check the URL constant")
+
+							return
+						end
+
+						t2 = {
+							V = {
+								AutoCollect = 0,
+								CollectAura = 0,
+								AutoSell = 0,
+								AutoPetBuy = 0,
+								Sniper = 0,
+								Noclip = 0,
+							},
+							AutoCollect = false,
+							CollectAura = false,
+							AutoSell = false,
+							AutoPetBuy = false,
+							SniperOn = false,
+							Noclip = false,
+							FlyEnabled = false,
+							ShowNotifs = true,
+							WalkSpeed = 16,
+							JumpPower = 50,
+							FlySpeed = 60,
+							SellInterval = 4,
+							AuraRange = 50,
+							GearSnipe = {},
+							SeedSnipe = {},
+							InfJumpConn = nil,
+							AntiAfkConn = nil,
+						}
+					end
+
+					u36 = false
+
+					v40 = (function()
+						local v469 = u13
+						local g470 = nil
+						local ok = nil
+						local result = nil
+
+						repeat
+							if g470 or isfile and (readfile and isfile(v469)) then
+								if not g470 then
+									ok, result = pcall(readfile, v469)
+								end
+
+								if g470 or ok then
+									g470 = false
+
+									if result and result ~= "" then
+										local _pcall = pcall
+										local u474 = result
+										local v475, v476 = pcall(function()
+											return u14:JSONDecode(u474)
+										end)
+
+										return v475 and (type(v476) == "table" and v476) or {}
+									end
+
+									return {}
+								end
+							end
+
+							result = nil
+							g470 = true
+						until not g470
+					end)()
+
+					local WalkSpeed = v40.WalkSpeed
+
+					if type(WalkSpeed) == "number" then
+						t2.WalkSpeed = v40.WalkSpeed
+					end
+
+					local JumpPower = v40.JumpPower
+
+					if type(JumpPower) == "number" then
+						t2.JumpPower = v40.JumpPower
+					end
+
+					local FlySpeed = v40.FlySpeed
+
+					if type(FlySpeed) == "number" then
+						t2.FlySpeed = v40.FlySpeed
+					end
+				end
+
+				local SellInterval = v40.SellInterval
+
+				if type(SellInterval) == "number" then
+					t2.SellInterval = v40.SellInterval
+				end
+
+				local AuraRange = v40.AuraRange
+
+				if type(AuraRange) == "number" then
+					t2.AuraRange = v40.AuraRange
+				end
+
+				local ShowNotifs = v40.ShowNotifs
+
+				if type(ShowNotifs) == "boolean" then
+					t2.ShowNotifs = v40.ShowNotifs
+				end
+
+				local GearSnipe = v40.GearSnipe
+
+				if type(GearSnipe) == "table" then
+					t2.GearSnipe = v40.GearSnipe
+				end
+
+				local SeedSnipe = v40.SeedSnipe
+
+				if type(SeedSnipe) == "table" then
+					t2.SeedSnipe = v40.SeedSnipe
+				end
+				local u51 = t2
+
+				function v52(p1, p2, p3)
+					local n1 = 0
+
+					while n1 < p1 do
+						if p3 ~= u51.V[p2] then
+							return false
+						end
+
+						local v496 = p1 - n1
+						local v497 = math.min(0.05, v496)
+
+						task.wait(v497)
+						n1 = n1 + v497
+					end
+
+					return p3 == u51.V[p2]
+				end
+			end
+
+			t3 = {
+				Common = 1,
+				Uncommon = 2,
+				Rare = 3,
+				Epic = 4,
+				Legendary = 5,
+				Mythic = 6,
+				Super = 7,
+			}
+			t4 = {
+				Common = "⚪",
+				Uncommon = "🟢",
+				Rare = "🔵",
+				Epic = "🟣",
+				Legendary = "🟡",
+				Mythic = "🔴",
+				Super = "🌈",
+			}
+			t5 = {}
+
+			do
+				local t24, t25
+
+				do
+					local t6 = {
+						name = "Common Watering Can",
+						rarity = "Common",
+						cost = 2000,
+					}
+					local t7 = {
+						name = "Common Sprinkler",
+						rarity = "Common",
+						cost = 3000,
+					}
+					local t8 = {
+						name = "Sign",
+						rarity = "Common",
+						cost = 4000,
+					}
+					local t9 = {
+						name = "Uncommon Sprinkler",
+						rarity = "Uncommon",
+						cost = 10000,
+					}
+					local t10 = {
+						name = "Trowel",
+						rarity = "Rare",
+						cost = 1000,
+					}
+					local t11 = {
+						name = "Speed Mushroom",
+						rarity = "Rare",
+						cost = 1500,
+					}
+					local t12 = {
+						name = "Jump Mushroom",
+						rarity = "Rare",
+						cost = 1800,
+					}
+					local t13 = {
+						name = "Lantern",
+						rarity = "Rare",
+						cost = 12000,
+					}
+					local t14 = {
+						name = "Rare Sprinkler",
+						rarity = "Rare",
+						cost = 80000,
+					}
+					local t15 = {
+						name = "Shrink Mushroom",
+						rarity = "Epic",
+						cost = 10000,
+					}
+					local t16 = {
+						name = "Supersize Mushroom",
+						rarity = "Epic",
+						cost = 20000,
+					}
+					local t17 = {
+						name = "Flashbang",
+						rarity = "Epic",
+						cost = 20000,
+					}
+					local t18 = {
+						name = "Gnome",
+						rarity = "Epic",
+						cost = 100000,
+					}
+					local t19 = {
+						name = "Basic Pot",
+						rarity = "Epic",
+						cost = 300000,
+					}
+					local t20 = {
+						name = "Invisibility Mushroom",
+						rarity = "Legendary",
+						cost = 30000,
+					}
+					local t21 = {
+						name = "Teleporter",
+						rarity = "Legendary",
+						cost = 60000,
+					}
+
+					t5[1] = t6
+					t5[2] = t7
+					t5[3] = t8
+					t5[4] = t9
+					t5[5] = t10
+					t5[6] = t11
+					t5[7] = t12
+					t5[8] = t13
+					t5[9] = t14
+					t5[10] = t15
+					t5[11] = t16
+					t5[12] = t17
+					t5[13] = t18
+					t5[14] = t19
+					t5[15] = t20
+					t5[16] = t21
+
+					local t22 = {
+						name = "Wheelbarrow",
+						rarity = "Legendary",
+						cost = 500000,
+					}
+					local t23 = {
+						name = "Legendary Sprinkler",
+						rarity = "Legendary",
+						cost = 1200000,
+					}
+
+					t24 = {
+						name = "Super Sprinkler",
+						rarity = "Super",
+						cost = 300000,
+					}
+					t25 = {
+						name = "Super Watering Can",
+						rarity = "Super",
+						cost = 1000000,
+					}
+					t5[17] = t22
+					t5[18] = t23
+				end
+
+				t5[19] = t24
+				t5[20] = t25
+
+				local sort = table.sort
+				local u77 = t3
+
+				sort(t5, function(p4, p5)
+					local v500 = u77[p4.rarity] or 0
+					local v501 = u77[p5.rarity] or 0
+
+					return v500 == v501 and p4.cost < p5.cost or v500 < v501
+				end)
+				t26 = {}
+
+				local t27 = {
+					name = "Carrot",
+					rarity = "Common",
+					cost = 1,
+				}
+				local t28 = {
+					name = "Strawberry",
+					rarity = "Common",
+					cost = 10,
+				}
+				local t29 = {
+					name = "Blueberry",
+					rarity = "Common",
+					cost = 25,
+				}
+				local t30 = {
+					name = "Tulip",
+					rarity = "Uncommon",
+					cost = 40,
+				}
+				local t31 = {
+					name = "Tomato",
+					rarity = "Uncommon",
+					cost = 200,
+				}
+				local t32 = {
+					name = "Apple",
+					rarity = "Uncommon",
+					cost = 400,
+				}
+				local t33 = {
+					name = "Bamboo",
+					rarity = "Rare",
+					cost = 700,
+				}
+				local t34 = {
+					name = "Corn",
+					rarity = "Rare",
+					cost = 2500,
+				}
+				local t35 = {
+					name = "Cactus",
+					rarity = "Rare",
+					cost = 5000,
+				}
+				local t36 = {
+					name = "Horned Melon",
+					rarity = "Rare",
+					cost = 5000,
+				}
+				local t37 = {
+					name = "Pineapple",
+					rarity = "Rare",
+					cost = 10000,
+				}
+				local t38 = {
+					name = "Mushroom",
+					rarity = "Epic",
+					cost = 15000,
+				}
+				local t39 = {
+					name = "Glow Mushroom",
+					rarity = "Epic",
+					cost = 15000,
+				}
+				local t40 = {
+					name = "Green Bean",
+					rarity = "Epic",
+					cost = 20000,
+				}
+				local t41 = {
+					name = "Banana",
+					rarity = "Epic",
+					cost = 30000,
+				}
+				local t42 = {
+					name = "Grape",
+					rarity = "Epic",
+					cost = 50000,
+				}
+
+				t26[1] = t27
+				t26[2] = t28
+				t26[3] = t29
+				t26[4] = t30
+				t26[5] = t31
+				t26[6] = t32
+				t26[7] = t33
+				t26[8] = t34
+				t26[9] = t35
+				t26[10] = t36
+				t26[11] = t37
+				t26[12] = t38
+				t26[13] = t39
+				t26[14] = t40
+				t26[15] = t41
+				t26[16] = t42
+			end
+
+			local t43 = {
+				name = "Coconut",
+				rarity = "Epic",
+				cost = 140000,
+			}
+			local t44 = {
+				name = "Mango",
+				rarity = "Epic",
+				cost = 300000,
+			}
+			local t45 = {
+				name = "Dragon Fruit",
+				rarity = "Legendary",
+				cost = 120000,
+			}
+			local t46 = {
+				name = "Acorn",
+				rarity = "Legendary",
+				cost = 700000,
+			}
+			local t47 = {
+				name = "Cherry",
+				rarity = "Legendary",
+				cost = 1200000,
+			}
+			local t48 = {
+				name = "Poison Ivy",
+				rarity = "Legendary",
+				cost = 2800000,
+			}
+			local t49 = {
+				name = "Gold",
+				rarity = "Legendary",
+				cost = 5000000,
+			}
+			local t50 = {
+				name = "Sunflower",
+				rarity = "Legendary",
+				cost = 5000000,
+			}
+			local t51 = {
+				name = "Ghost Pepper",
+				rarity = "Mythic",
+				cost = 2800000,
+			}
+			local t52 = {
+				name = "Venus Fly Trap",
+				rarity = "Mythic",
+				cost = 7000000,
+			}
+			local t53 = {
+				name = "Romanesco",
+				rarity = "Mythic",
+				cost = 8000000,
+			}
+			local t54 = {
+				name = "Pomegranate",
+				rarity = "Mythic",
+				cost = 12000000,
+			}
+			local t55 = {
+				name = "Poison Apple",
+				rarity = "Mythic",
+				cost = 25000000,
+			}
+			local t56 = {
+				name = "Rainbow",
+				rarity = "Mythic",
+				cost = 50000000,
+			}
+			local t57 = {
+				name = "Moon Bloom",
+				rarity = "Super",
+				cost = 65000000,
+			}
+			local t58 = {
+				name = "Dragon's Breath",
+				rarity = "Super",
+				cost = 90000000,
+			}
+
+			t26[17] = t43
+			t26[18] = t44
+			t26[19] = t45
+			t26[20] = t46
+			t26[21] = t47
+			t26[22] = t48
+			t26[23] = t49
+			t26[24] = t50
+			t26[25] = t51
+			t26[26] = t52
+			t26[27] = t53
+			t26[28] = t54
+			t26[29] = t55
+			t26[30] = t56
+			t26[31] = t57
+			t26[32] = t58
+
+			local sort = table.sort
+			local u112 = t3
+
+			sort(t26, function(p6, p7)
+				local v504 = u112[p6.rarity] or 0
+				local v505 = u112[p7.rarity] or 0
+
+				return v504 == v505 and p6.cost < p7.cost or v504 < v505
+			end)
+
+			local u113 = t2
+			local u114 = v31
+			local u115 = StarterGui
+
+			function v116(p8, p9, p10, p11)
+				if u113.ShowNotifs then
+					local _pcall = pcall
+					local u512 = p8
+					local u513 = p9
+					local u514 = p10
+
+					pcall(function()
+						u114:Notify({
+							Title = u512,
+							Body = u513 or "",
+							Duration = u514 or 3,
+							Kind = p11 or "info",
+						})
+					end)
+					local u516 = p8
+					local u517 = p9
+					local u518 = p10
+
+					pcall(function()
+						u115:SetCore("SendNotification", {
+							Title = u516,
+							Text = u517 or "",
+							Duration = u518 or 3,
+						})
+					end)
+
+					return
+				end
+			end
+			function v117(p12)
+				if p12 then
+					local v520 = tonumber(p12) or 0
+
+					if not (v520 >= 1000000000) then
+						if not (v520 >= 1000000) then
+							if not (v520 >= 1000) then
+								local v521 = math.floor(v520)
+
+								return (tostring(v521))
+							end
+
+							return ("%.1fK"):format(v520 / 1000)
+						end
+
+						return ("%.1fM"):format(v520 / 1000000)
+					end
+
+					return ("%.1fB"):format(v520 / 1000000000)
+				end
+
+				return "?"
+			end
+			function u118(p13)
+				local v523 = tonumber(p13) or 0
+
+				if not (v523 <= 0) then
+					local v524 = v523 / 60
+					local v525 = math.floor(v524)
+					local v526 = v523 % 60
+
+					return ("%dm %ds"):format(v525, (math.floor(v526)))
+				end
+
+				return "now"
+			end
+			local u122 = LocalPlayer
+
+			function v123(p14, p15, p16)
+				local v537 = p15 or Vector3.new(0, 3.5, 0)
+
+				if not p16 then
+					p16 = 32
+				end
+
+				if p14 and p14:IsA("Model") then
+					p14 = p14.PrimaryPart or p14:FindFirstChildWhichIsA("BasePart")
+				end
+
+				if p14 and p14:IsA("BasePart") then
+					local Character = u122.Character
+
+					if Character then
+						local HumanoidRootPart = Character:FindFirstChild("HumanoidRootPart")
+
+						if HumanoidRootPart then
+							for _, descendant in ipairs(Character:GetDescendants()) do
+								if descendant:IsA("BasePart") then
+									descendant.CanCollide = false
+								end
+							end
+
+							local v542 = p14.CFrame + v537
+							local Magnitude = (v542.Position - HumanoidRootPart.Position).Magnitude
+							local new = TweenInfo.new
+							local v546 = Magnitude / p16
+							local v547 = TweenService:Create(HumanoidRootPart, new(math.max(0.1, v546), Enum.EasingStyle.Linear), {
+								CFrame = v542,
+							})
+
+							v547:Play()
+							v547.Completed:Connect(function()
+								task.wait(0.12)
+
+								local Character2 = u122.Character
+
+								if Character2 then
+									for _, descendant in ipairs(Character2:GetDescendants()) do
+										if descendant:IsA("BasePart") then
+											descendant.CanCollide = true
+										end
+									end
+								end
+							end)
+
+							return true
+						end
+
+						return false
+					end
+
+					return false
+				end
+
+				return false
+			end
+
+			local u124 = v123
+
+			function v125(p17)
+				local Gardens = workspace:FindFirstChild("Gardens")
+
+				if Gardens then
+					local v550 = Gardens:FindFirstChild("Plot" .. tostring(p17))
+
+					if v550 then
+						local Signs = v550:FindFirstChild("Signs")
+
+						if Signs then
+							local Garden = Signs:FindFirstChild("Garden")
+
+							if Garden and Garden:IsA("BasePart") then
+								u124(Garden, Vector3.zero)
+
+								return
+							end
+						end
+
+						local PlotSizeReference = v550:FindFirstChild("PlotSizeReference")
+
+						if not PlotSizeReference or not PlotSizeReference:IsA("BasePart") then
+							local BasePart = v550:FindFirstChildWhichIsA("BasePart")
+
+							if BasePart then
+								u124(BasePart, Vector3.zero)
+							end
+
+							return
+						end
+
+						u124(PlotSizeReference, Vector3.zero)
+
+						return
+					end
+
+					return
+				end
+			end
+			local u129 = ReplicatedStorage
+
+			function v130(p18)
+				local StockValues = u129:FindFirstChild("StockValues")
+
+				if StockValues then
+					local p18_2 = StockValues:FindFirstChild(p18)
+
+					if p18_2 then
+						local Items = p18_2:FindFirstChild("Items")
+
+						if Items then
+							local t59 = {}
+
+							for _, child in ipairs(Items:GetChildren()) do
+								if (child:IsA("IntValue") or child:IsA("NumberValue")) and child.Value > 0 then
+									t59[child.Name] = child.Value
+								end
+							end
+
+							return t59
+						end
+
+						return {}
+					end
+
+					return {}
+				end
+
+				return {}
+			end
+
+			local u131 = ReplicatedStorage
+
+			function v132(p19)
+				local StockValues = u131:FindFirstChild("StockValues")
+
+				if StockValues then
+					local p19_2 = StockValues:FindFirstChild(p19)
+
+					if p19_2 then
+						local UnixNextRestock = p19_2:FindFirstChild("UnixNextRestock")
+
+						if UnixNextRestock then
+							local v568 = UnixNextRestock.Value - os.time()
+
+							return (math.max(0, v568))
+						end
+
+						return nil
+					end
+
+					return nil
+				end
+
+				return nil
+			end
+		end
+
+		local u134 = LocalPlayer
+
+		local function v135()
+			local t60 = {}
+
+			for _, child in ipairs(u134.PlayerGui:GetChildren()) do
+				if child:IsA("ScreenGui") then
+					t60[child] = child.Enabled
+				end
+			end
+
+			return t60
+		end
+
+		local u136 = ReplicatedStorage
+		local u137 = v135
+		local u138 = LocalPlayer
+		local u139 = v116
+
+		function v140(p20)
+			local ok, result = pcall(require, u136.SharedModules.Networking)
+			local v578 = ok and result or nil
+
+			if v578 then
+				local v579 = u137()
+				local _pcall = pcall
+				local u581 = v578
+				local u582 = p20
+				local v583, v584 = pcall(function()
+					u581.GearShop.PurchaseGear:Fire(u582)
+				end)
+				local defer = task.defer
+				local u586 = v579
+
+				defer(function()
+					task.wait(0.15)
+
+					local PlayerGui = u138.PlayerGui
+
+					for _, child in ipairs(PlayerGui:GetChildren()) do
+						if child:IsA("ScreenGui") then
+							if u586[child] or not child.Enabled then
+								if u586[child] == false and child.Enabled then
+									local v817 = child.Name:lower()
+
+									if v817:match("shop") or v817:match("store") or v817:match("gear") or v817:match("seed") then
+										child.Enabled = false
+									end
+								end
+							else
+								child.Enabled = false
+							end
+						end
+					end
+				end)
+
+				if not v583 then
+					u139("⚠\239\184\143 Gear", tostring(v584):sub(1, 60), 3, "error")
+
+					return v583
+				end
+
+				u139("⚙\239\184\143 Bought", p20, 3, "success")
+
+				return v583
+			end
+
+			return false
+		end
+
+		local u141 = ReplicatedStorage
+		local u142 = v135
+		local u143 = LocalPlayer
+		local u144 = v116
+
+		function v145(p21)
+			local ok, result = pcall(require, u141.SharedModules.Networking)
+			local v590 = ok and result or nil
+
+			if v590 then
+				local v591 = u142()
+				local _pcall = pcall
+				local u593 = v590
+				local u594 = p21
+				local v595, v596 = pcall(function()
+					u593.SeedShop.PurchaseSeed:Fire(u594)
+				end)
+				local defer = task.defer
+				local u598 = v591
+
+				defer(function()
+					task.wait(0.15)
+
+					local PlayerGui = u143.PlayerGui
+
+					for _, child in ipairs(PlayerGui:GetChildren()) do
+						if child:IsA("ScreenGui") then
+							if u598[child] or not child.Enabled then
+								if u598[child] == false and child.Enabled then
+									local v821 = child.Name:lower()
+
+									if v821:match("shop") or v821:match("store") or v821:match("gear") or v821:match("seed") then
+										child.Enabled = false
+									end
+								end
+							else
+								child.Enabled = false
+							end
+						end
+					end
+				end)
+
+				if not v595 then
+					u144("⚠\239\184\143 Seed", tostring(v596):sub(1, 60), 3, "error")
+
+					return v595
+				end
+
+				u144("🌱 Bought", p21, 3, "success")
+
+				return v595
+			end
+
+			return false
+		end
+
+		local u146 = ReplicatedStorage
+		local u147 = v116
+		local u148 = v117
+
+		function v149()
+			local ok, result = pcall(require, u146.SharedModules.Networking)
+			local v601 = ok and result or nil
+
+			if v601 then
+				local _pcall = pcall
+				local u603 = v601
+
+				pcall(function()
+					u603.NPCS.PreviewSellAll:Fire()
+				end)
+				task.wait(0.1)
+				local u605 = v601
+				local v606, v607 = pcall(function()
+					return u605.NPCS.SellAll:Fire()
+				end)
+
+				if not v606 or type(v607) ~= "table" or not v607.SellPrice then
+					u147("💰 Sold!", "Complete", 3, "success")
+				else
+					u147("💰 Sold!", u148(v607.SellPrice) .. "¢", 4, "success")
+				end
+
+				return true
+			end
+
+			return false
+		end
+
+		local u150 = ReplicatedStorage
+		local u151 = v135
+		local u152 = LocalPlayer
+		local u153 = v116
+		local u154 = v117
+
+		function u155()
+			local ok, result = pcall(require, u150.SharedModules.Networking)
+			local v610 = ok and result or nil
+
+			if v610 then
+				local v611 = u151()
+				local _pcall = pcall
+				local u613 = v610
+
+				pcall(function()
+					u613.NPCS.PreviewSellAll:Fire()
+				end)
+				task.wait(0.1)
+				local u615 = v610
+				local v616, v617 = pcall(function()
+					return u615.NPCS.SellAll:Fire()
+				end)
+				local defer = task.defer
+				local u619 = v611
+
+				defer(function()
+					task.wait(0.15)
+
+					local PlayerGui = u152.PlayerGui
+
+					for _, child in ipairs(PlayerGui:GetChildren()) do
+						if child:IsA("ScreenGui") then
+							if u619[child] or not child.Enabled then
+								if u619[child] == false and child.Enabled then
+									local v825 = child.Name:lower()
+
+									if v825:match("shop") or v825:match("store") or v825:match("gear") or v825:match("seed") then
+										child.Enabled = false
+									end
+								end
+							else
+								child.Enabled = false
+							end
+						end
+					end
+				end)
+
+				if not v616 or type(v617) ~= "table" or not v617.SellPrice then
+					u153("💰 Sold!", "Complete", 3, "success")
+				else
+					u153("💰 Sold!", u154(v617.SellPrice) .. "¢", 4, "success")
+				end
+
+				return true
+			end
+
+			return false
+		end
+
+		local u156 = v123
+		local u157 = VirtualInputManager
+
+		function v158(p22, p23)
+			if p22 and p22.Parent then
+				local v624 = p22:IsA("Model") and (p22.PrimaryPart or p22:FindFirstChildWhichIsA("BasePart")) or p22
+
+				if v624 then
+					local ProximityPrompt = p22:FindFirstChildWhichIsA("ProximityPrompt", true)
+
+					u156(v624, Vector3.zero)
+					task.wait(0.12)
+
+					local n2 = 0
+
+					while p22 and p23 == p22.Parent and n2 < 40 do
+						if not ProximityPrompt or not ProximityPrompt.Parent then
+							u157:SendKeyEvent(true, "E", false, game)
+							task.wait(0.05)
+							u157:SendKeyEvent(false, "E", false, game)
+						else
+							pcall(fireproximityprompt, ProximityPrompt)
+						end
+
+						task.wait(0.05)
+						n2 = n2 + 1
+					end
+
+					return
+				end
+
+				return
+			end
+		end
+
+		local u159 = LocalPlayer
+		local u160 = v158
+
+		function u161()
+			local PlotId = u159:GetAttribute("PlotId")
+			local v629
+
+			if PlotId then
+				local Gardens = workspace:FindFirstChild("Gardens")
+
+				v629 = Gardens and Gardens:FindFirstChild("Plot" .. tostring(PlotId))
+			else
+				v629 = nil
+			end
+
+			if v629 then
+				local Plants = v629:FindFirstChild("Plants")
+
+				if Plants then
+					local n3 = 0
+
+					for _, child in ipairs(Plants:GetChildren()) do
+						if child:IsA("Model") then
+							local Fruits = child:FindFirstChild("Fruits")
+
+							if Fruits then
+								local t61 = {}
+
+								for _, child2 in ipairs(Fruits:GetChildren()) do
+									if child2:IsA("Model") or child2:IsA("BasePart") then
+										table.insert(t61, child2)
+										n3 = n3 + 1
+									end
+								end
+
+								for _, v in ipairs(t61) do
+									u160(v, Fruits)
+									task.wait(0.04)
+								end
+							end
+						end
+					end
+
+					return n3
+				end
+
+				return 0
+			end
+
+			return 0
+		end
+
+		local u162 = LocalPlayer
+
+		function u163()
+			local PlotId = u162:GetAttribute("PlotId")
+			local v642
+
+			if PlotId then
+				local Gardens = workspace:FindFirstChild("Gardens")
+
+				v642 = Gardens and Gardens:FindFirstChild("Plot" .. tostring(PlotId))
+			else
+				v642 = nil
+			end
+
+			if v642 then
+				local Plants = v642:FindFirstChild("Plants")
+
+				if Plants then
+					local n4 = 0
+
+					for _, child in ipairs(Plants:GetChildren()) do
+						local Fruits = child:FindFirstChild("Fruits")
+
+						if Fruits then
+							n4 = n4 + #Fruits:GetChildren()
+						end
+					end
+
+					return n4
+				end
+
+				return 0
+			end
+
+			return 0
+		end
+	end
+	local u176 = nil
+
+	local u177 = t2
+	local u178 = LocalPlayer
+
+	function v179()
+		u177.FlyEnabled = false
+
+		if u176 then
+			u176:Disconnect()
+			u176 = nil
+		end
+
+		local Character = u178.Character
+
+		if Character then
+			local HumanoidRootPart = Character:FindFirstChild("HumanoidRootPart")
+
+			if HumanoidRootPart then
+				local RH_FlyBG = HumanoidRootPart:FindFirstChild("RH_FlyBG")
+
+				if RH_FlyBG then
+					RH_FlyBG:Destroy()
+				end
+
+				local RH_FlyBA = HumanoidRootPart:FindFirstChild("RH_FlyBA")
+
+				if RH_FlyBA then
+					RH_FlyBA:Destroy()
+				end
+			end
+
+			local Humanoid = Character:FindFirstChild("Humanoid")
+
+			if Humanoid then
+				Humanoid.PlatformStand = false
+			end
+
+			return
+		end
+	end
+
+	local u180 = v179
+	local u181 = t2
+	local u182 = LocalPlayer
+	local u183 = RunService
+	local u184 = UserInputService
+
+	function v185()
+		u180()
+		u181.FlyEnabled = true
+
+		local Character = u182.Character
+
+		if Character then
+			local HumanoidRootPart = Character:FindFirstChild("HumanoidRootPart")
+
+			if HumanoidRootPart then
+				local Humanoid = Character:FindFirstChild("Humanoid")
+
+				if Humanoid then
+					Humanoid.PlatformStand = true
+
+					local BodyGyro = Instance.new("BodyGyro", HumanoidRootPart)
+
+					BodyGyro.Name = "RH_FlyBG"
+					BodyGyro.MaxTorque = Vector3.new(9000000000, 9000000000, 9000000000)
+					BodyGyro.P = 90000
+					BodyGyro.D = 1000
+
+					local BodyVelocity = Instance.new("BodyVelocity", HumanoidRootPart)
+
+					BodyVelocity.Name = "RH_FlyBA"
+					BodyVelocity.MaxForce = Vector3.new(9000000000, 9000000000, 9000000000)
+					BodyVelocity.Velocity = Vector3.zero
+
+					local CurrentCamera = workspace.CurrentCamera
+					local Heartbeat = u183.Heartbeat
+					local u672 = CurrentCamera
+					local u673 = BodyGyro
+					local u674 = HumanoidRootPart
+
+					u176 = Heartbeat:Connect(function()
+						if u181.FlyEnabled then
+							local zero = Vector3.zero
+
+							if u184:IsKeyDown(Enum.KeyCode.W) then
+								zero = zero + u672.CFrame.LookVector
+							end
+
+							if u184:IsKeyDown(Enum.KeyCode.S) then
+								zero = zero - u672.CFrame.LookVector
+							end
+
+							if u184:IsKeyDown(Enum.KeyCode.A) then
+								zero = zero - u672.CFrame.RightVector
+							end
+
+							if u184:IsKeyDown(Enum.KeyCode.D) then
+								zero = zero + u672.CFrame.RightVector
+							end
+
+							if u184:IsKeyDown(Enum.KeyCode.Space) then
+								zero = zero + Vector3.new(0, 1, 0)
+							end
+
+							if u184:IsKeyDown(Enum.KeyCode.LeftShift) then
+								zero = zero - Vector3.new(0, 1, 0)
+							end
+
+							BodyVelocity.Velocity = zero.Magnitude > 0 and zero.Unit * u181.FlySpeed or Vector3.zero
+
+							if zero.Magnitude > 0 then
+								u673.CFrame = CFrame.lookAt(u674.Position, u674.Position + u672.CFrame.LookVector)
+							end
+
+							return
+						end
+
+						u180()
+					end)
+
+					return
+				end
+
+				return
+			end
+
+			return
+		end
+	end
+
+	local t62 = {}
+
+	t63 = {}
+
+	local u188 = t62
+	local u189 = t3
+	local u190 = v116
+	local u191 = t4
+	local u192 = t62
+	local spawn = task.spawn
+
+	local function u194(p24)
+		if p24 and p24.Parent then
+			local p24Name = p24.Name
+			local v678 = p24Name:match("WildPet_([^_]+)_WildPet_") or (p24Name:match("WildPet_(.+)") or p24Name)
+
+			if not u188[v678] then
+				local v679 = p24:GetAttribute("PetName") or (v678 or false)
+				local v680 = p24:GetAttribute("Rarity") or "Common"
+				local Price = p24:GetAttribute("Price")
+				local v682 = p24.PrimaryPart or p24:FindFirstChildWhichIsA("BasePart")
+
+				u188[v678] = {
+					name = v679,
+					base = v678,
+					rarity = v680,
+					price = Price,
+					model = p24,
+					sp = v682,
+				}
+
+				if (u189[v680] or 0) >= 3 then
+					u190("🐾 Rare Pet Spawned!", (u191[v680] or "🐾") .. " " .. v679 .. " [" .. v680 .. "]", 5, "success")
+				end
+
+				return
+			end
+
+			return
+		end
+	end
+	local function u195(p25)
+		local p25Name = p25.Name
+		local v685 = p25Name:match("WildPet_([^_]+)_WildPet_") or (p25Name:match("WildPet_(.+)") or p25Name)
+
+		if u192[v685] and p25 == u192[v685].model then
+			u192[v685] = nil
+		end
+	end
+
+	local u196 = t63
+
+	spawn(function()
+		local Map = workspace:WaitForChild("Map", 30)
+
+		if Map then
+			local function v687(p26)
+				for _, child in ipairs(p26:GetChildren()) do
+					pcall(u194, child)
+				end
+
+				local connection = p26.ChildAdded:Connect(function(child)
+					task.wait(0.15)
+					pcall(u194, child)
+				end)
+				local connection2 = p26.ChildRemoved:Connect(function(child)
+					pcall(u195, child)
+				end)
+
+				table.insert(u196, connection)
+
+				table.insert(u196, connection2)
+			end
+
+			local WildPetSpawns = Map:FindFirstChild("WildPetSpawns")
+
+			if not WildPetSpawns then
+				local ChildAdded = Map.ChildAdded
+				local u690 = v687
+				local connection = ChildAdded:Connect(function(p27)
+					if p27.Name == "WildPetSpawns" then
+						task.wait(0.1)
+						u690(p27)
+					end
+				end)
+
+				table.insert(u196, connection)
+
+				return
+			end
+
+			v687(WildPetSpawns)
+
+			return
+		end
+	end)
+
+	local u197 = t62
+	local u198 = t3
+
+	function v199()
+		local t64 = {}
+
+		for _, v in pairs(u197) do
+			table.insert(t64, v)
+		end
+
+		table.sort(t64, function(p28, p29)
+			local v869 = u198[p28.rarity] or 0
+			local v870 = u198[p29.rarity] or 0
+
+			return v869 ~= v870 and v869 < v870 or p28.name < p29.name
+		end)
+
+		return t64
+	end
+
+	local u200 = v123
+	local u201 = VirtualInputManager
+	local u202 = v116
+
+	function v203(p30)
+		local v697 = p30.sp or p30.model
+
+		if v697 then
+			u200(v697, Vector3.new(0, 2, 0))
+			task.wait(0.45)
+
+			local v698 = p30.model and p30.model:FindFirstChildWhichIsA("ProximityPrompt", true)
+
+			if not v698 then
+				u201:SendKeyEvent(true, "E", false, game)
+				task.wait(6)
+				u201:SendKeyEvent(false, "E", false, game)
+			else
+				local timestamp = tick()
+
+				while tick() - timestamp < 6 and p30.model and p30.model.Parent do
+					pcall(fireproximityprompt, v698)
+					task.wait(0.1)
+				end
+			end
+
+			u202("🐾 Attempted", p30.name, 3)
+
+			return
+		end
+	end
+end
+
+local u216 = t2
+local u217 = v179
+local u218 = t63
+local u219 = LocalPlayer
+local u220 = v116
+
+local function u221()
+	for k in pairs(u216.V) do
+		u216.V[k] = u216.V[k] + 1
+	end
+
+	u216.AutoCollect = false
+	u216.CollectAura = false
+	u216.AutoSell = false
+	u216.AutoPetBuy = false
+	u216.SniperOn = false
+	u216.Noclip = false
+	u217()
+
+	if u216.InfJumpConn then
+		u216.InfJumpConn:Disconnect()
+		u216.InfJumpConn = nil
+	end
+
+	if u216.AntiAfkConn then
+		u216.AntiAfkConn:Disconnect()
+		u216.AntiAfkConn = nil
+	end
+
+	for _, v in ipairs(u218) do
+		local _pcall = pcall
+		local u710 = v
+
+		pcall(function()
+			u710:Disconnect()
+		end)
+	end
+
+	local Character = u219.Character
+
+	if Character then
+		local Humanoid = Character:FindFirstChild("Humanoid")
+
+		if Humanoid then
+			Humanoid.WalkSpeed = 16
+			Humanoid.JumpPower = 50
+			Humanoid.PlatformStand = false
+		end
+
+		for _, descendant in ipairs(Character:GetDescendants()) do
+			if descendant:IsA("BasePart") then
+				descendant.CanCollide = true
+			end
+		end
+	end
+
+	u220("🛑 Ronin Hub", "All features stopped", 3)
+end
+
+local v222 = v31:Window({
+	Title = "Ronin Hub",
+	Subtitle = "Grow a Garden 2",
+	Width = 720,
+	Height = 480,
+	ToggleKey = Enum.KeyCode.RightControl,
+})
+
+repeat
+	if g223 or isfile and readfile and isfile("RoninHub/Settings/UI.txt") then
+		if not g223 then
+			v224, v225 = pcall(readfile, "RoninHub/Settings/UI.txt")
+		end
+
+		if g223 or v224 then
+			local u233, u234, u268, u280, u311, u312, v389
+
+			do
+				local t103
+
+				do
+					local v361
+
+					do
+						local v338
+
+						do
+							do
+								local v292
+
+								do
+									do
+										local v267
+
+										do
+											do
+												local v230
+
+												do
+													do
+														do
+															do
+																do
+																	do
+																		do
+																			g223 = false
+
+																			local v226 = v225 and (v225:gsub("%s+", "") ~= "" and v225:gsub("%s+", ""))
+																				or "Dark"
+
+																			if v226 ~= "Dark" then
+																				local _pcall = pcall
+																				local u228 = v31
+																				local u229 = v226
+
+																				pcall(function()
+																					u228:SetTheme(u229)
+																				end)
+																			end
+
+																			v230 = v222:Tab("Farm", "farm")
+																			v230:Section("Your Garden")
+
+																			local t65 = {
+																				Text = "Plot ID",
+																			}
+																			local v232 = LocalPlayer:GetAttribute("PlotId") or "—"
+
+																			t65.Value = tostring(v232)
+																			u233 = v230:Stat(t65)
+																		end
+
+																		u234 = v230:Stat({
+																			Text = "Fruits Ready",
+																			Value = "0",
+																		})
+
+																		local t66 = {
+																			Text = "📍 Go to My Plot",
+																			Tooltip = "Tween to your garden plot",
+																		}
+																		local u236 = LocalPlayer
+																		local u237 = v125
+																		local u238 = v116
+
+																		function t66.Callback()
+																			local PlotId = u236:GetAttribute("PlotId")
+
+																			if not PlotId then
+																				u238("⚠\239\184\143 No Plot", "You don't own a plot yet!", 4, "error")
+
+																				return
+																			end
+
+																			u237(PlotId)
+																		end
+
+																		v230:Button(t66)
+																	end
+
+																	v230:Divider()
+																	v230:Section("Collect")
+
+																	local t67 = {
+																		Text = "🍃 Auto Collect",
+																		Tooltip = "Continuously collects ripe fruits on your plot",
+																		Default = false,
+																	}
+																	local u240 = t2
+																	local u241 = LocalPlayer
+																	local u242 = v158
+																	local u243 = v116
+
+																	function t67.Callback(p31)
+																		u240.AutoCollect = p31
+																		u240.V.AutoCollect = u240.V.AutoCollect + 1
+
+																		if not p31 then
+																			u243("🍃 Auto Collect", "OFF", 2)
+
+																			return
+																		end
+
+																		local AutoCollect = u240.V.AutoCollect
+																		local spawn = task.spawn
+																		local u719 = AutoCollect
+
+																		spawn(function()
+																			while u719 == u240.V.AutoCollect do
+																				local Character = u241.Character
+
+																				if not Character or not Character:FindFirstChild("HumanoidRootPart") then
+																					return
+																				end
+
+																				local PlotId = u241:GetAttribute("PlotId")
+																				local v888
+
+																				if PlotId then
+																					local Gardens = workspace:FindFirstChild("Gardens")
+
+																					v888 = Gardens and Gardens:FindFirstChild("Plot" .. tostring(PlotId))
+																				else
+																					v888 = nil
+																				end
+
+																				if v888 then
+																					local Plants = v888:FindFirstChild("Plants")
+
+																					if Plants then
+																						for _, child in ipairs(Plants:GetChildren()) do
+																							if u719 ~= u240.V.AutoCollect then
+																								break
+																							end
+
+																							if child:IsA("Model") then
+																								local Fruits = child:FindFirstChild("Fruits")
+
+																								if Fruits then
+																									for _, child3 in ipairs(Fruits:GetChildren()) do
+																										if u719 ~= u240.V.AutoCollect then
+																											break
+																										end
+
+																										if child3:IsA("Model") or child3:IsA("BasePart") then
+																											local Age = child3:GetAttribute("Age")
+																											local MaxAge = child3:GetAttribute("MaxAge")
+
+																											if Age and MaxAge and MaxAge <= Age then
+																												u242(child3, Fruits)
+																											end
+																										end
+																									end
+																								end
+																							end
+																						end
+																					end
+																				end
+
+																				task.wait(0.05)
+																			end
+																		end)
+																		u243("🍃 Auto Collect", "ON", 2, "success")
+																	end
+
+																	v230:Toggle(t67)
+																end
+
+																local t68 = {
+																	Text = "⭐ Collect Aura",
+																	Tooltip = "Collects any fruit within the aura radius — no tweening",
+																	Default = false,
+																}
+																local u245 = t2
+																local u246 = LocalPlayer
+																local u247 = VirtualInputManager
+																local u248 = v116
+
+																function t68.Callback(p32)
+																	u245.CollectAura = p32
+																	u245.V.CollectAura = u245.V.CollectAura + 1
+
+																	if not p32 then
+																		u248("⭐ Collect Aura", "OFF", 2)
+
+																		return
+																	end
+
+																	local CollectAura = u245.V.CollectAura
+																	local spawn = task.spawn
+																	local u723 = CollectAura
+
+																	spawn(function()
+																		while u723 == u245.V.CollectAura do
+																			local Character = u246.Character
+
+																			if not Character then
+																				return
+																			end
+
+																			local HumanoidRootPart = Character:FindFirstChild("HumanoidRootPart")
+
+																			if not HumanoidRootPart then
+																				return
+																			end
+
+																			local PlotId = u246:GetAttribute("PlotId")
+																			local v901
+
+																			if PlotId then
+																				local Gardens = workspace:FindFirstChild("Gardens")
+
+																				v901 = Gardens and Gardens:FindFirstChild("Plot" .. tostring(PlotId))
+																			else
+																				v901 = nil
+																			end
+
+																			if v901 then
+																				local Plants = v901:FindFirstChild("Plants")
+
+																				if Plants then
+																					for _, child in ipairs(Plants:GetChildren()) do
+																						if u723 ~= u245.V.CollectAura then
+																							break
+																						end
+
+																						if child:IsA("Model") then
+																							local Fruits = child:FindFirstChild("Fruits")
+
+																							if Fruits then
+																								for _, child4 in ipairs(Fruits:GetChildren()) do
+																									if u723 ~= u245.V.CollectAura then
+																										break
+																									end
+
+																									if child4:IsA("Model") or child4:IsA("BasePart") then
+																										local v908
+
+																										if not child4:IsA("Model") then
+																											v908 = child4:IsA("BasePart") and child4.Position
+																												or nil
+																										else
+																											local v909 = child4.PrimaryPart
+																												or child4:FindFirstChildWhichIsA("BasePart")
+
+																											v908 = v909 and v909.Position
+																										end
+
+																										if
+																											v908
+																											and (v908 - HumanoidRootPart.Position).Magnitude
+																												<= u245.AuraRange
+																										then
+																											local ProximityPrompt =
+																												child4:FindFirstChildWhichIsA(
+																													"ProximityPrompt",
+																													true
+																												)
+
+																											if not ProximityPrompt then
+																												u247:SendKeyEvent(true, "E", false, game)
+																												task.wait(0.05)
+																												u247:SendKeyEvent(false, "E", false, game)
+																											else
+																												pcall(fireproximityprompt, ProximityPrompt)
+																											end
+																										end
+
+																										task.wait(0.01)
+																									end
+																								end
+																							end
+																						end
+																					end
+																				end
+																			end
+
+																			task.wait(0.01)
+																		end
+																	end)
+																	u248("⭐ Collect Aura", "ON  [" .. u245.AuraRange .. " st]", 2, "success")
+																end
+
+																v230:Toggle(t68)
+															end
+
+															local t69 = {
+																Text = "Aura Range",
+																Min = 10,
+																Max = 200,
+																Default = t2.AuraRange,
+																Suffix = " st",
+																Tooltip = "Radius for Collect Aura",
+															}
+															local u250 = t2
+															local u251 = v12
+															local u252 = HttpService
+
+															function t69.Callback(p33)
+																u250.AuraRange = p33
+
+																if not u36 then
+																	u36 = true
+																	task.delay(1.5, function()
+																		u36 = false
+																		pcall(function()
+																			local json = u252:JSONEncode({
+																				WalkSpeed = u250.WalkSpeed,
+																				JumpPower = u250.JumpPower,
+																				FlySpeed = u250.FlySpeed,
+																				SellInterval = u250.SellInterval,
+																				AuraRange = u250.AuraRange,
+																				ShowNotifs = u250.ShowNotifs,
+																				GearSnipe = u250.GearSnipe,
+																				SeedSnipe = u250.SeedSnipe,
+																			})
+
+																			if writefile then
+																				pcall(writefile, u251, (tostring(json)))
+																			end
+																		end)
+																	end)
+
+																	return
+																end
+															end
+
+															v230:Slider(t69)
+														end
+
+														v230:Divider()
+														v230:Section("Sell")
+
+														local t70 = {
+															Text = "💰 Auto Sell",
+															Tooltip = "Sells on a timer — set the interval below",
+															Default = false,
+														}
+														local u254 = t2
+														local u255 = v149
+														local u256 = v52
+														local u257 = v116
+
+														function t70.Callback(p34)
+															u254.AutoSell = p34
+															u254.V.AutoSell = u254.V.AutoSell + 1
+
+															if not p34 then
+																u257("💰 Auto Sell", "OFF", 2)
+
+																return
+															end
+
+															local AutoSell = u254.V.AutoSell
+															local spawn = task.spawn
+															local u728 = AutoSell
+
+															spawn(function()
+																while u728 == u254.V.AutoSell do
+																	pcall(u255)
+
+																	if not u256(u254.SellInterval, "AutoSell", u728) then
+																		return
+																	end
+																end
+															end)
+															u257("💰 Auto Sell", "ON  every " .. u254.SellInterval .. "s", 2, "success")
+														end
+
+														v230:Toggle(t70)
+													end
+
+													local t71 = {
+														Text = "Sell Interval",
+														Min = 1,
+														Max = 30,
+														Default = t2.SellInterval,
+														Suffix = "s",
+														Tooltip = "How often Auto Sell fires",
+													}
+													local u259 = t2
+													local u260 = v12
+													local u261 = HttpService
+
+													function t71.Callback(p35)
+														u259.SellInterval = p35
+
+														if not u36 then
+															u36 = true
+															task.delay(1.5, function()
+																u36 = false
+																pcall(function()
+																	local json = u261:JSONEncode({
+																		WalkSpeed = u259.WalkSpeed,
+																		JumpPower = u259.JumpPower,
+																		FlySpeed = u259.FlySpeed,
+																		SellInterval = u259.SellInterval,
+																		AuraRange = u259.AuraRange,
+																		ShowNotifs = u259.ShowNotifs,
+																		GearSnipe = u259.GearSnipe,
+																		SeedSnipe = u259.SeedSnipe,
+																	})
+
+																	if writefile then
+																		pcall(writefile, u260, (tostring(json)))
+																	end
+																end)
+															end)
+
+															return
+														end
+													end
+
+													v230:Slider(t71)
+												end
+
+												v230:Divider()
+
+												local t72 = {}
+												local t73 = {}
+												local t74 = {
+													Text = "🍃 Collect Now",
+													Tooltip = "Immediately collect all ripe fruits",
+												}
+												local u265 = v116
+
+												function t74.Callback()
+													task.spawn(function()
+														local v911 = u161()
+
+														u265("✅ Collected", v911 .. " fruit(s)", 3, "success")
+													end)
+												end
+
+												local t75 = {
+													Text = "💰 Sell Now",
+													Tooltip = "Walk to Steven and sell everything",
+													Callback = function()
+														task.spawn(u155)
+													end,
+												}
+
+												t73[1] = t74
+												t73[2] = t75
+												t72.Buttons = t73
+												v230:ButtonGroup(t72)
+												v267 = v222:Tab("Shops", "🪙")
+												v267:Section("Gear Shop")
+												u268 = v267:Stat({
+													Text = "Next Restock",
+													Value = "…",
+												})
+
+												local t76 = {
+													Text = "📋 Check Live Stock",
+													Tooltip = "Print all gear currently in stock",
+												}
+												local u270 = v130
+												local u271 = v116
+
+												function t76.Callback()
+													local v730 = u270("GearShop")
+													local v731 = false
+
+													for k, v in pairs(v730) do
+														u271("✅ In Stock", k .. " × " .. v, 4, "success")
+														v731 = true
+													end
+
+													if not v731 then
+														u271("⚙\239\184\143 Gear Shop", "Nothing in stock right now", 3, "error")
+													end
+												end
+
+												v267:Button(t76)
+											end
+
+											local s1 = ""
+
+											for _, v in ipairs(t5) do
+												if s1 ~= v.rarity then
+													s1 = v.rarity
+													v267:Section((t4[v.rarity] or "◻") .. " " .. v.rarity)
+												end
+
+												local t77 = {
+													Text = v.name .. "  (" .. v117(v.cost) .. "¢)",
+													Tooltip = v.rarity .. " — " .. v117(v.cost) .. "¢  (checks stock first)",
+												}
+												local u276 = v130
+												local u277 = v
+												local u278 = v116
+												local u279 = v140
+
+												function t77.Callback()
+													task.spawn(function()
+														local v912 = u276("GearShop")
+
+														if v912[u277.name] and v912[u277.name] > 0 then
+															u279(u277.name)
+
+															return
+														end
+
+														u278("⚠\239\184\143 Out of Stock", u277.name, 3, "error")
+													end)
+												end
+
+												v267:Button(t77)
+											end
+
+											v267:Divider()
+											v267:Section("Seed Shop")
+											u280 = v267:Stat({
+												Text = "Next Restock",
+												Value = "…",
+											})
+
+											local t78 = {
+												Text = "📋 Check Live Stock",
+												Tooltip = "Print all seeds currently in stock",
+											}
+											local u282 = v130
+											local u283 = v116
+
+											function t78.Callback()
+												local v734 = u282("SeedShop")
+												local v735 = false
+
+												for k, v in pairs(v734) do
+													u283("✅ In Stock", k .. " × " .. v, 4, "success")
+													v735 = true
+												end
+
+												if not v735 then
+													u283("🌱 Seed Shop", "Nothing in stock right now", 3, "error")
+												end
+											end
+
+											v267:Button(t78)
+										end
+
+										local s2 = ""
+
+										for _, v in ipairs(t26) do
+											if s2 ~= v.rarity then
+												s2 = v.rarity
+												v267:Section((t4[v.rarity] or "◻") .. " " .. v.rarity)
+											end
+
+											local t79 = {
+												Text = v.name .. "  (" .. v117(v.cost) .. "¢)",
+												Tooltip = v.rarity .. " — " .. v117(v.cost) .. "¢  (checks stock first)",
+											}
+											local u288 = v130
+											local u289 = v
+											local u290 = v116
+											local u291 = v145
+
+											function t79.Callback()
+												task.spawn(function()
+													local v913 = u288("SeedShop")
+
+													if v913[u289.name] and v913[u289.name] > 0 then
+														u291(u289.name)
+
+														return
+													end
+
+													u290("⚠\239\184\143 Out of Stock", u289.name, 3, "error")
+												end)
+											end
+
+											v267:Button(t79)
+										end
+
+										v292 = v222:Tab("Sniper", "crosshair")
+										v292:Label("Saves position → buys armed targets → returns → waits for restock → repeats.")
+										v292:Divider()
+
+										local t80 = {
+											Text = "🎯 Arm Sniper",
+											Tooltip = "Start the sniper loop  [X to toggle anytime]",
+											Default = false,
+										}
+										local u294 = t2
+										local u295 = LocalPlayer
+										local u296 = v130
+										local u297 = v116
+										local u298 = v140
+										local u299 = v52
+										local u300 = v145
+										local u301 = v132
+
+										function t80.Callback(p36)
+											u294.SniperOn = p36
+											u294.V.Sniper = u294.V.Sniper + 1
+
+											if not p36 then
+												u297("🎯 Sniper", "DISARMED", 2)
+
+												return
+											end
+
+											local Sniper = u294.V.Sniper
+											local spawn = task.spawn
+											local u741 = Sniper
+
+											spawn(function()
+												while u741 == u294.V.Sniper do
+													local HumanoidRootPartCFrame = nil
+													local Character = u295.Character
+
+													if Character then
+														local HumanoidRootPart = Character:FindFirstChild("HumanoidRootPart")
+
+														if HumanoidRootPart then
+															HumanoidRootPartCFrame = HumanoidRootPart.CFrame
+														end
+													end
+
+													for k, v in pairs((u296("GearShop"))) do
+														if u741 ~= u294.V.Sniper then
+															break
+														end
+
+														if u294.GearSnipe[k] and v > 0 then
+															u297("🎯 Gear!", k .. " ×" .. v, 3)
+															u298(k)
+															u299(0.3, "Sniper", u741)
+														end
+													end
+
+													for k, v in pairs((u296("SeedShop"))) do
+														if u741 ~= u294.V.Sniper then
+															break
+														end
+
+														if u294.SeedSnipe[k] and v > 0 then
+															u297("🎯 Seed!", k .. " ×" .. v, 3)
+															u300(k)
+															u299(0.3, "Sniper", u741)
+														end
+													end
+
+													if HumanoidRootPartCFrame then
+														local Character3 = u295.Character
+														local v922 = Character3 and Character3:FindFirstChild("HumanoidRootPart")
+
+														if v922 then
+															v922.CFrame = HumanoidRootPartCFrame
+														end
+													end
+
+													local n5 = 0
+
+													while u741 == u294.V.Sniper do
+														local v924 = u301("GearShop") or 9999
+														local v925 = u301("SeedShop") or 9999
+
+														if math.min(v924, v925) <= 8 or n5 >= 660 or not u299(5, "Sniper", u741) then
+															break
+														end
+
+														n5 = n5 + 5
+													end
+												end
+
+												u294.SniperOn = false
+											end)
+											u297("🎯 Sniper", "ARMED", 2, "success")
+										end
+
+										v292:Toggle(t80)
+									end
+
+									local t81 = {}
+									local t82 = {}
+									local t83 = {
+										Text = "🔍 Scan & Buy Now",
+										Tooltip = "One-shot buy pass for all ticked targets",
+									}
+									local u305 = LocalPlayer
+									local u306 = v130
+									local u307 = t2
+									local u308 = v140
+									local u309 = v145
+									local u310 = v116
+
+									function t83.Callback()
+										task.spawn(function()
+											local HumanoidRootPartCFrame = nil
+											local Character = u305.Character
+
+											if Character then
+												local HumanoidRootPart = Character:FindFirstChild("HumanoidRootPart")
+
+												if HumanoidRootPart then
+													HumanoidRootPartCFrame = HumanoidRootPart.CFrame
+												end
+											end
+
+											for k, v in pairs((u306("GearShop"))) do
+												if u307.GearSnipe[k] and v > 0 then
+													u308(k)
+													task.wait(0.3)
+												end
+											end
+
+											for k, v in pairs((u306("SeedShop"))) do
+												if u307.SeedSnipe[k] and v > 0 then
+													u309(k)
+													task.wait(0.3)
+												end
+											end
+
+											if HumanoidRootPartCFrame then
+												local Character4 = u305.Character
+												local v934 = Character4 and Character4:FindFirstChild("HumanoidRootPart")
+
+												if v934 then
+													v934.CFrame = HumanoidRootPartCFrame
+												end
+											end
+
+											u310("✅ Scan Done", "Back to position", 3, "success")
+										end)
+									end
+
+									t82[1] = t83
+									t81.Buttons = t82
+									v292:ButtonGroup(t81)
+								end
+
+								v292:Divider()
+								v292:Section("Restock Timers")
+								u311 = v292:Stat({
+									Text = "⚙\239\184\143 Gear Shop",
+									Value = "…",
+								})
+								u312 = v292:Stat({
+									Text = "🌱 Seed Shop",
+									Value = "…",
+								})
+								v292:Divider()
+								v292:Section("Gear Targets  (tick to snipe on restock)")
+
+								local s3 = ""
+
+								for _, v in ipairs(t5) do
+									if s3 ~= v.rarity then
+										s3 = v.rarity
+										v292:Section((t4[v.rarity] or "◻") .. " " .. v.rarity)
+									end
+
+									local t84 = {
+										Text = v.name .. "  " .. v117(v.cost) .. "¢",
+										Tooltip = "Snipe " .. v.name .. " when it restocks",
+										Default = t2.GearSnipe[v.name] == true,
+									}
+									local u317 = t2
+									local u318 = v
+									local u319 = v12
+									local u320 = HttpService
+
+									function t84.Callback(p37)
+										u317.GearSnipe[u318.name] = p37 or false
+
+										if not u36 then
+											u36 = true
+											task.delay(1.5, function()
+												u36 = false
+												pcall(function()
+													local json = u320:JSONEncode({
+														WalkSpeed = u317.WalkSpeed,
+														JumpPower = u317.JumpPower,
+														FlySpeed = u317.FlySpeed,
+														SellInterval = u317.SellInterval,
+														AuraRange = u317.AuraRange,
+														ShowNotifs = u317.ShowNotifs,
+														GearSnipe = u317.GearSnipe,
+														SeedSnipe = u317.SeedSnipe,
+													})
+
+													if writefile then
+														pcall(writefile, u319, (tostring(json)))
+													end
+												end)
+											end)
+
+											return
+										end
+									end
+
+									v292:Checkbox(t84)
+								end
+
+								v292:Divider()
+								v292:Section("Seed Targets  (tick to snipe on restock)")
+
+								local s4 = ""
+
+								for _, v in ipairs(t26) do
+									if s4 ~= v.rarity then
+										s4 = v.rarity
+										v292:Section((t4[v.rarity] or "◻") .. " " .. v.rarity)
+									end
+
+									local t85 = {
+										Text = v.name .. "  " .. v117(v.cost) .. "¢",
+										Tooltip = "Snipe " .. v.name .. " when it restocks",
+										Default = t2.SeedSnipe[v.name] == true,
+									}
+									local u325 = t2
+									local u326 = v
+									local u327 = v12
+									local u328 = HttpService
+
+									function t85.Callback(p38)
+										u325.SeedSnipe[u326.name] = p38 or false
+
+										if not u36 then
+											u36 = true
+											task.delay(1.5, function()
+												u36 = false
+												pcall(function()
+													local json = u328:JSONEncode({
+														WalkSpeed = u325.WalkSpeed,
+														JumpPower = u325.JumpPower,
+														FlySpeed = u325.FlySpeed,
+														SellInterval = u325.SellInterval,
+														AuraRange = u325.AuraRange,
+														ShowNotifs = u325.ShowNotifs,
+														GearSnipe = u325.GearSnipe,
+														SeedSnipe = u325.SeedSnipe,
+													})
+
+													if writefile then
+														pcall(writefile, u327, (tostring(json)))
+													end
+												end)
+											end)
+
+											return
+										end
+									end
+
+									v292:Checkbox(t85)
+								end
+
+								local InputBegan = UserInputService.InputBegan
+								local u330 = t2
+								local u331 = LocalPlayer
+								local u332 = v130
+								local u333 = v116
+								local u334 = v140
+								local u335 = v52
+								local u336 = v145
+								local u337 = v132
+
+								InputBegan:Connect(function(p39, p40)
+									if not p40 then
+										if p39.KeyCode == Enum.KeyCode.X then
+											u330.SniperOn = not u330.SniperOn
+											u330.V.Sniper = u330.V.Sniper + 1
+
+											if u330.SniperOn then
+												local Sniper = u330.V.Sniper
+												local spawn = task.spawn
+												local u748 = Sniper
+
+												spawn(function()
+													while u748 == u330.V.Sniper do
+														local HumanoidRootPartCFrame = nil
+														local Character = u331.Character
+
+														if Character then
+															local HumanoidRootPart = Character:FindFirstChild("HumanoidRootPart")
+
+															if HumanoidRootPart then
+																HumanoidRootPartCFrame = HumanoidRootPart.CFrame
+															end
+														end
+
+														for k, v in pairs((u332("GearShop"))) do
+															if u748 ~= u330.V.Sniper then
+																break
+															end
+
+															if u330.GearSnipe[k] and v > 0 then
+																u333("🎯 Gear!", k .. " ×" .. v, 3)
+																u334(k)
+																u335(0.3, "Sniper", u748)
+															end
+														end
+
+														for k, v in pairs((u332("SeedShop"))) do
+															if u748 ~= u330.V.Sniper then
+																break
+															end
+
+															if u330.SeedSnipe[k] and v > 0 then
+																u333("🎯 Seed!", k .. " ×" .. v, 3)
+																u336(k)
+																u335(0.3, "Sniper", u748)
+															end
+														end
+
+														if HumanoidRootPartCFrame then
+															local Character5 = u331.Character
+															local v943 = Character5 and Character5:FindFirstChild("HumanoidRootPart")
+
+															if v943 then
+																v943.CFrame = HumanoidRootPartCFrame
+															end
+														end
+
+														local n6 = 0
+
+														while u748 == u330.V.Sniper do
+															local v945 = u337("GearShop") or 9999
+															local v946 = u337("SeedShop") or 9999
+
+															if math.min(v945, v946) <= 8 or n6 >= 660 or not u335(5, "Sniper", u748) then
+																break
+															end
+
+															n6 = n6 + 5
+														end
+													end
+
+													u330.SniperOn = false
+												end)
+												u333("🎯 Sniper", "ARMED [X]", 2, "success")
+
+												return
+											end
+
+											u333("🎯 Sniper", "DISARMED [X]", 2)
+										end
+
+										return
+									end
+								end)
+							end
+
+							v338 = v222:Tab("Pets", "sparkle")
+							v338:Label("Pets register automatically as they spawn. Rare+ pets trigger a notification.")
+							v338:Divider()
+
+							local t86 = {}
+							local t87 = {}
+							local t88 = {
+								Text = "📋 List Pets",
+								Tooltip = "Print active pets to the output console",
+							}
+							local u342 = v199
+							local u343 = v116
+							local u344 = t4
+							local u345 = v117
+
+							function t88.Callback()
+								local v749 = u342()
+
+								if #v749 ~= 0 then
+									u343("🐾 Pets", #v749 .. " active — see output", 3, "success")
+
+									for _, v in ipairs(v749) do
+										print(
+											("[RH Pet] %s %s [%s]%s"):format(
+												u344[v.rarity] or "🐾",
+												v.name,
+												v.rarity,
+												v.price and "  💰" .. u345(v.price) or ""
+											)
+										)
+									end
+
+									return
+								end
+
+								u343("🐾 Pets", "No wild pets active", 3)
+							end
+
+							local t89 = {
+								Text = "📍 TP to First",
+								Tooltip = "Tween to the highest-rarity active pet",
+							}
+							local u347 = v199
+							local u348 = v116
+							local u349 = v123
+
+							function t89.Callback()
+								task.spawn(function()
+									local v947 = u347()
+
+									if #v947 ~= 0 then
+										local v948 = v947[#v947]
+
+										u349(v948.sp or v948.model, Vector3.new(0, 2, 0))
+										u348("📍 Teleporting", "→ " .. v948.name, 2)
+
+										return
+									end
+
+									u348("⚠\239\184\143 Pets", "No pets active!", 3, "error")
+								end)
+							end
+
+							local t90 = {
+								Text = "💵 Buy All",
+								Tooltip = "Attempt to purchase every active pet",
+							}
+							local u351 = v199
+							local u352 = v116
+							local u353 = t4
+							local u354 = v203
+
+							function t90.Callback()
+								task.spawn(function()
+									local v949 = u351()
+
+									if #v949 ~= 0 then
+										for _, v in ipairs(v949) do
+											u352("🐾 Buying", (u353[v.rarity] or "🐾") .. " " .. v.name, 3)
+											u354(v)
+											task.wait(0.5)
+										end
+
+										u352("✅ Done", "Attempted all " .. #v949 .. " pet(s)", 3, "success")
+
+										return
+									end
+
+									u352("⚠\239\184\143 Pets", "No pets active!", 3, "error")
+								end)
+							end
+
+							t87[1] = t88
+							t87[2] = t89
+							t87[3] = t90
+							t86.Buttons = t87
+							v338:ButtonGroup(t86)
+						end
+
+						v338:Divider()
+
+						local t91 = {
+							Text = "🤖 Auto Pet Buyer",
+							Tooltip = "Loops through all active pets and buys them automatically",
+							Default = false,
+						}
+						local u356 = t2
+						local u357 = v199
+						local u358 = v203
+						local u359 = v52
+						local u360 = v116
+
+						function t91.Callback(p41)
+							u356.AutoPetBuy = p41
+							u356.V.AutoPetBuy = u356.V.AutoPetBuy + 1
+
+							if not p41 then
+								u360("🤖 Auto Pet", "OFF", 2)
+
+								return
+							end
+
+							local AutoPetBuy = u356.V.AutoPetBuy
+							local spawn = task.spawn
+							local u755 = AutoPetBuy
+
+							spawn(function()
+								while u755 == u356.V.AutoPetBuy do
+									for _, v in ipairs((u357())) do
+										if u755 ~= u356.V.AutoPetBuy then
+											break
+										end
+
+										u358(v)
+
+										if not u359(0.5, "AutoPetBuy", u755) then
+											break
+										end
+									end
+
+									if not u359(2, "AutoPetBuy", u755) then
+										return
+									end
+								end
+							end)
+							u360("🤖 Auto Pet", "ON", 2, "success")
+						end
+
+						v338:Toggle(t91)
+						v361 = v222:Tab("TP", "map_pin")
+						v361:Section("NPC Teleports  [tweened]")
+
+						local t92 = {}
+						local t93 = {}
+						local t94 = {
+							Text = "🎭 Charlotte",
+							Tooltip = "Tween to Charlotte",
+						}
+						local u365 = v123
+						local u366 = v116
+
+						function t94.Callback()
+							task.spawn(function()
+								local NPCS = workspace:FindFirstChild("NPCS")
+								local v956
+
+								if NPCS then
+									local Charlotte = NPCS:FindFirstChild("Charlotte")
+
+									v956 = Charlotte and Charlotte:FindFirstChild("HumanoidRootPart")
+								else
+									v956 = nil
+								end
+
+								if not v956 then
+									u366("⚠\239\184\143", "Charlotte not found", 3, "error")
+
+									return
+								end
+
+								u365(v956, Vector3.new(0, 2, -5))
+								u366("📍", "→ Charlotte", 2)
+							end)
+						end
+
+						local t95 = {
+							Text = "⚔\239\184\143 Gilbert",
+							Tooltip = "Tween to Gilbert",
+						}
+						local u368 = v123
+						local u369 = v116
+
+						function t95.Callback()
+							task.spawn(function()
+								local NPCS = workspace:FindFirstChild("NPCS")
+								local v959
+
+								if NPCS then
+									local Gilbert = NPCS:FindFirstChild("Gilbert")
+
+									v959 = Gilbert and Gilbert:FindFirstChild("HumanoidRootPart")
+								else
+									v959 = nil
+								end
+
+								if not v959 then
+									u369("⚠\239\184\143", "Gilbert not found", 3, "error")
+
+									return
+								end
+
+								u368(v959, Vector3.new(0, 2, -5))
+								u369("📍", "→ Gilbert", 2)
+							end)
+						end
+
+						local t96 = {
+							Text = "🌱 Sam",
+							Tooltip = "Tween to Sam (Seed Shop)",
+						}
+						local u371 = v123
+						local u372 = v116
+
+						function t96.Callback()
+							task.spawn(function()
+								local NPCS = workspace:FindFirstChild("NPCS")
+								local v962
+
+								if NPCS then
+									local Sam = NPCS:FindFirstChild("Sam")
+
+									v962 = Sam and Sam:FindFirstChild("HumanoidRootPart")
+								else
+									v962 = nil
+								end
+
+								if not v962 then
+									u372("⚠\239\184\143", "Sam not found", 3, "error")
+
+									return
+								end
+
+								u371(v962, Vector3.new(0, 2, -5))
+								u372("📍", "→ Sam (Seeds)", 2)
+							end)
+						end
+
+						t93[1] = t94
+						t93[2] = t95
+						t93[3] = t96
+						t92.Buttons = t93
+						v361:ButtonGroup(t92)
+					end
+
+					local t97 = {}
+					local t98 = {}
+					local t99 = {
+						Text = "💰 Steven",
+						Tooltip = "Tween to Steven (Sell NPC)",
+					}
+					local u376 = v123
+					local u377 = v116
+
+					function t99.Callback()
+						task.spawn(function()
+							local NPCS = workspace:FindFirstChild("NPCS")
+							local v965
+
+							if NPCS then
+								local Steven = NPCS:FindFirstChild("Steven")
+
+								v965 = Steven and Steven:FindFirstChild("HumanoidRootPart")
+							else
+								v965 = nil
+							end
+
+							if not v965 then
+								u377("⚠\239\184\143", "Steven not found", 3, "error")
+
+								return
+							end
+
+							u376(v965, Vector3.new(0, 2, -5))
+							u377("📍", "→ Steven (Sell)", 2)
+						end)
+					end
+
+					local t100 = {
+						Text = "⚙\239\184\143 George",
+						Tooltip = "Tween to George (Gear Shop)",
+					}
+					local u379 = v123
+					local u380 = v116
+
+					function t100.Callback()
+						task.spawn(function()
+							local NPCS = workspace:FindFirstChild("NPCS")
+							local v968
+
+							if NPCS then
+								local George = NPCS:FindFirstChild("George")
+
+								v968 = George and George:FindFirstChild("HumanoidRootPart")
+							else
+								v968 = nil
+							end
+
+							if not v968 then
+								u380("⚠\239\184\143", "George not found", 3, "error")
+
+								return
+							end
+
+							u379(v968, Vector3.new(0, 2, -5))
+							u380("📍", "→ George (Gear)", 2)
+						end)
+					end
+
+					t98[1] = t99
+					t98[2] = t100
+					t97.Buttons = t98
+					v361:ButtonGroup(t97)
+					v361:Divider()
+					v361:Section("Garden Plots  [tweened]")
+
+					local t101 = {
+						Text = "⭐ My Plot",
+						Tooltip = "Tween to your own garden",
+					}
+					local u382 = LocalPlayer
+					local u383 = v125
+					local u384 = v116
+
+					function t101.Callback()
+						task.spawn(function()
+							local PlotId = u382:GetAttribute("PlotId")
+
+							if not PlotId then
+								u384("⚠\239\184\143 No Plot", "You don't own a plot yet!", 4, "error")
+
+								return
+							end
+
+							u383(PlotId)
+							u384("📍", "→ Your Plot", 2)
+						end)
+					end
+
+					v361:Button(t101)
+					local s5 = "1"
+					v361:Dropdown({
+						Text = "Select Plot",
+						Options = {
+							"1",
+							"2",
+							"3",
+							"4",
+							"5",
+							"6",
+							"7",
+							"8",
+						},
+						Default = "1",
+						Tooltip = "Choose a plot number then press Teleport",
+						Callback = function(p42)
+							s5 = p42
+						end,
+					})
+
+					local t102 = {
+						Text = "🌾 Teleport to Plot",
+						Tooltip = "Tween to the selected plot",
+					}
+					local u387 = v125
+					local u388 = v116
+
+					function t102.Callback()
+						task.spawn(function()
+							local num = tonumber(s5)
+
+							if num then
+								u387(num)
+								u388("📍", "→ Plot " .. num, 2)
+							end
+						end)
+					end
+
+					v361:Button(t102)
+					v389 = v222:Tab("Movement", "speed")
+					v389:Section("Character Stats")
+					t103 = {
+						Text = "Walk Speed",
+						Min = 8,
+						Max = 128,
+						Default = t2.WalkSpeed,
+						Suffix = " st/s",
+						Tooltip = "Sets Humanoid.WalkSpeed immediately",
+					}
+
+					local u391 = t2
+					local u392 = LocalPlayer
+					local u393 = v12
+					local u394 = HttpService
+
+					function t103.Callback(p43)
+						u391.WalkSpeed = p43
+
+						local Character = u392.Character
+						local v759 = Character and Character:FindFirstChild("Humanoid")
+
+						if v759 then
+							v759.WalkSpeed = p43
+						end
+
+						if not u36 then
+							u36 = true
+							task.delay(1.5, function()
+								u36 = false
+								pcall(function()
+									local json = u394:JSONEncode({
+										WalkSpeed = u391.WalkSpeed,
+										JumpPower = u391.JumpPower,
+										FlySpeed = u391.FlySpeed,
+										SellInterval = u391.SellInterval,
+										AuraRange = u391.AuraRange,
+										ShowNotifs = u391.ShowNotifs,
+										GearSnipe = u391.GearSnipe,
+										SeedSnipe = u391.SeedSnipe,
+									})
+
+									if writefile then
+										pcall(writefile, u393, (tostring(json)))
+									end
+								end)
+							end)
+
+							return
+						end
+					end
+				end
+
+				v389:Slider(t103)
+
+				local t104 = {
+					Text = "Jump Power",
+					Min = 25,
+					Max = 250,
+					Default = t2.JumpPower,
+					Tooltip = "Sets Humanoid.JumpPower immediately",
+				}
+				local u396 = t2
+				local u397 = LocalPlayer
+				local u398 = v12
+				local u399 = HttpService
+
+				function t104.Callback(p44)
+					u396.JumpPower = p44
+
+					local Character = u397.Character
+					local v762 = Character and Character:FindFirstChild("Humanoid")
+
+					if v762 then
+						v762.JumpPower = p44
+					end
+
+					if not u36 then
+						u36 = true
+						task.delay(1.5, function()
+							u36 = false
+							pcall(function()
+								local json = u399:JSONEncode({
+									WalkSpeed = u396.WalkSpeed,
+									JumpPower = u396.JumpPower,
+									FlySpeed = u396.FlySpeed,
+									SellInterval = u396.SellInterval,
+									AuraRange = u396.AuraRange,
+									ShowNotifs = u396.ShowNotifs,
+									GearSnipe = u396.GearSnipe,
+									SeedSnipe = u396.SeedSnipe,
+								})
+
+								if writefile then
+									pcall(writefile, u398, (tostring(json)))
+								end
+							end)
+						end)
+
+						return
+					end
+				end
+
+				v389:Slider(t104)
+				v389:Divider()
+				v389:Section("Extras")
+
+				local t105 = {
+					Text = "👻 Noclip",
+					Tooltip = "Walk through walls",
+					Default = false,
+				}
+				local u401 = t2
+				local u402 = LocalPlayer
+				local u403 = v52
+				local u404 = v116
+
+				function t105.Callback(p45)
+					u401.Noclip = p45
+					u401.V.Noclip = u401.V.Noclip + 1
+
+					if not p45 then
+						u404("👻 Noclip", "OFF", 2)
+
+						return
+					end
+
+					local Noclip = u401.V.Noclip
+					local spawn = task.spawn
+					local u766 = Noclip
+
+					spawn(function()
+						while u766 == u401.V.Noclip do
+							local Character = u402.Character
+
+							if Character then
+								for _, descendant in ipairs(Character:GetDescendants()) do
+									if descendant:IsA("BasePart") then
+										descendant.CanCollide = false
+									end
+								end
+							end
+
+							if not u403(0.1, "Noclip", u766) then
+								break
+							end
+						end
+
+						local Character = u402.Character
+
+						if Character then
+							for _, descendant in ipairs(Character:GetDescendants()) do
+								if descendant:IsA("BasePart") then
+									descendant.CanCollide = true
+								end
+							end
+						end
+					end)
+					u404("👻 Noclip", "ON", 2, "success")
+				end
+
+				v389:Toggle(t105)
+
+				local t106 = {
+					Text = "♾\239\184\143 Infinite Jump",
+					Tooltip = "Jump again in mid-air",
+					Default = false,
+				}
+				local u406 = t2
+				local u407 = UserInputService
+				local u408 = LocalPlayer
+				local u409 = v116
+
+				function t106.Callback(p46)
+					if u406.InfJumpConn then
+						u406.InfJumpConn:Disconnect()
+						u406.InfJumpConn = nil
+					end
+
+					if not p46 then
+						u409("♾\239\184\143 Inf Jump", "OFF", 2)
+
+						return
+					end
+
+					u406.InfJumpConn = u407.JumpRequest:Connect(function()
+						local Character = u408.Character
+						local v979 = Character and Character:FindFirstChild("Humanoid")
+
+						if v979 then
+							v979:ChangeState(Enum.HumanoidStateType.Jumping)
+						end
+					end)
+					u409("♾\239\184\143 Inf Jump", "ON", 2, "success")
+				end
+
+				v389:Toggle(t106)
+
+				local t107 = {
+					Text = "🛡\239\184\143 Anti-AFK",
+					Tooltip = "Presses W every 60 s to prevent kick",
+					Default = false,
+				}
+				local u411 = t2
+				local u412 = RunService
+				local u413 = VirtualInputManager
+				local u414 = v116
+
+				function t107.Callback(p47)
+					if u411.AntiAfkConn then
+						u411.AntiAfkConn:Disconnect()
+						u411.AntiAfkConn = nil
+					end
+
+					if not p47 then
+						u414("🛡\239\184\143 Anti-AFK", "OFF", 2)
+
+						return
+					end
+
+					local n7 = 0
+
+					u411.AntiAfkConn = u412.Stepped:Connect(function()
+						local timestamp = tick()
+
+						if timestamp - n7 >= 60 then
+							n7 = timestamp
+							pcall(function()
+								u413:SendKeyEvent(true, "W", false, game)
+								u413:SendKeyEvent(false, "W", false, game)
+							end)
+						end
+					end)
+					u414("🛡\239\184\143 Anti-AFK", "ON", 2, "success")
+				end
+
+				v389:Toggle(t107)
+			end
+
+			v389:Divider()
+			v389:Section("Flight  [F to toggle]")
+
+			local t108 = {
+				Text = "✈\239\184\143 Fly",
+				Tooltip = "WASD to move, Space = up, Shift = down  |  F to toggle anytime",
+				Default = false,
+			}
+			local u416 = v185
+			local u417 = v116
+			local u418 = v179
+
+			function t108.Callback(p48)
+				if not p48 then
+					u418()
+					u417("✈\239\184\143 Fly", "OFF", 2)
+
+					return
+				end
+
+				u416()
+				u417("✈\239\184\143 Fly", "ON  — WASD + Space/Shift", 3, "success")
+			end
+
+			v389:Toggle(t108)
+
+			local t109 = {
+				Text = "Fly Speed",
+				Min = 20,
+				Max = 300,
+				Default = t2.FlySpeed,
+				Suffix = " st/s",
+				Tooltip = "Applied immediately while flying",
+			}
+			local u420 = t2
+			local u421 = v12
+			local u422 = HttpService
+
+			function t109.Callback(p49)
+				u420.FlySpeed = p49
+
+				if not u36 then
+					u36 = true
+					task.delay(1.5, function()
+						u36 = false
+						pcall(function()
+							local json = u422:JSONEncode({
+								WalkSpeed = u420.WalkSpeed,
+								JumpPower = u420.JumpPower,
+								FlySpeed = u420.FlySpeed,
+								SellInterval = u420.SellInterval,
+								AuraRange = u420.AuraRange,
+								ShowNotifs = u420.ShowNotifs,
+								GearSnipe = u420.GearSnipe,
+								SeedSnipe = u420.SeedSnipe,
+							})
+
+							if writefile then
+								pcall(writefile, u421, (tostring(json)))
+							end
+						end)
+					end)
+
+					return
+				end
+			end
+
+			v389:Slider(t109)
+
+			local InputBegan = UserInputService.InputBegan
+			local u424 = t2
+			local u425 = v179
+			local u426 = v185
+
+			InputBegan:Connect(function(p50, p51)
+				if not p51 then
+					if p50.KeyCode == Enum.KeyCode.F then
+						if u424.FlyEnabled then
+							u425()
+
+							return
+						end
+
+						u426()
+					end
+
+					return
+				end
+			end)
+
+			local v427 = v222:Tab("Settings", "settings")
+
+			v427:Section("Appearance")
+
+			local t110 = {
+				"Dark",
+				"Light",
+				"Rosewood",
+				"Ultraviolet",
+				"Seafoam",
+				"SolarFlare",
+				"Abyss",
+			}
+			local t111 = {
+				Text = "Theme",
+				Options = t110,
+			}
+
+			repeat
+				if g430 or isfile and readfile and isfile("RoninHub/Settings/UI.txt") then
+					if not g430 then
+						v431, v432 = pcall(readfile, "RoninHub/Settings/UI.txt")
+					end
+
+					if g430 or v431 then
+						do
+							local u440, u441
+							do
+								local t114
+
+								do
+									do
+										local t112
+
+										do
+											do
+												g430 = false
+												t111.Default = v432 and (v432:gsub("%s+", "") ~= "" and v432:gsub("%s+", "")) or "Dark"
+												t111.Tooltip = "Change the Ronin Hub colour theme"
+
+												local u433 = v31
+
+												function t111.Callback(p52)
+													local _pcall = pcall
+													local u776 = p52
+
+													pcall(function()
+														u433:SetTheme(u776)
+													end)
+
+													if writefile then
+														pcall(writefile, "RoninHub/Settings/UI.txt", (tostring(p52)))
+													end
+												end
+											end
+
+											v427:Dropdown(t111)
+											v427:Divider()
+											v427:Section("Preferences")
+											t112 = {
+												Text = "🔔 Notifications",
+												Tooltip = "Show in-game popup notifications",
+												Default = t2.ShowNotifs,
+											}
+
+											local u435 = t2
+											local u436 = v12
+											local u437 = HttpService
+
+											function t112.Callback(p53)
+												u435.ShowNotifs = p53
+
+												if not u36 then
+													u36 = true
+													task.delay(1.5, function()
+														u36 = false
+														pcall(function()
+															local json = u437:JSONEncode({
+																WalkSpeed = u435.WalkSpeed,
+																JumpPower = u435.JumpPower,
+																FlySpeed = u435.FlySpeed,
+																SellInterval = u435.SellInterval,
+																AuraRange = u435.AuraRange,
+																ShowNotifs = u435.ShowNotifs,
+																GearSnipe = u435.GearSnipe,
+																SeedSnipe = u435.SeedSnipe,
+															})
+
+															if writefile then
+																pcall(writefile, u436, (tostring(json)))
+															end
+														end)
+													end)
+
+													return
+												end
+											end
+										end
+
+										v427:Toggle(t112)
+										v427:Divider()
+										v427:Section("Info")
+										v427:Stat({
+											Text = "Player",
+											Value = LocalPlayer.Name,
+										})
+
+										local t113 = {
+											Text = "Game ID",
+										}
+										local GameId = game.GameId
+
+										t113.Value = tostring(GameId)
+										v427:Stat(t113)
+									end
+
+									v427:Stat({
+										Text = "Platform",
+										Value = v29 and "Mobile" or "Desktop",
+									})
+									v427:Stat({
+										Text = "Tween Speed",
+										Value = "32 st/s",
+									})
+									v427:Stat({
+										Text = "Sniper Poll",
+										Value = "5s",
+									})
+									u440 = v427:Stat({
+										Text = "Auto Sell Interval",
+										Value = t2.SellInterval .. "s",
+									})
+									u441 = v427:Stat({
+										Text = "Aura Range",
+										Value = t2.AuraRange .. " st",
+									})
+									v427:Divider()
+									v427:Section("Actions")
+									t114 = {
+										Text = "📊 Print Status",
+										Tooltip = "Dump current state to the developer console (F9)",
+									}
+
+									local u443 = v199
+									local u444 = LocalPlayer
+									local u445 = t2
+									local u446 = v132
+									local u447 = v116
+
+									function t114.Callback()
+										local v778 = u443()
+
+										print(
+											"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+										)
+										print("✅  Ronin Hub — GaG2  |  Status")
+										print("👤  Player:      " .. u444.Name)
+
+										local _print = print
+										local v780 = u444:GetAttribute("PlotId") or "none"
+
+										print("🌾  Plot:        " .. tostring(v780))
+										local AutoCollect = u445.AutoCollect
+
+										print("🍃  AutoCollect: " .. tostring(AutoCollect))
+										local CollectAura = u445.CollectAura
+
+										print("⭐  Aura:        " .. tostring(CollectAura) .. "  [" .. u445.AuraRange .. " st]")
+										local AutoSell = u445.AutoSell
+
+										print("💰  AutoSell:    " .. tostring(AutoSell) .. "  every " .. u445.SellInterval .. "s")
+										local SniperOn = u445.SniperOn
+
+										print("🎯  Sniper:      " .. tostring(SniperOn))
+										local FlyEnabled = u445.FlyEnabled
+
+										print("✈\239\184\143   Fly:         " .. tostring(FlyEnabled) .. "  @ " .. u445.FlySpeed .. " st/s")
+										print("🚶  WalkSpeed:   " .. u445.WalkSpeed)
+										print("🐾  Pets active: " .. #v778)
+
+										local _print7 = print
+										local v792 = u446("GearShop") or 0
+										local v793 = tonumber(v792) or 0
+										local v797
+
+										if not (v793 <= 0) then
+											local v794 = v793 / 60
+											local v795 = math.floor(v794)
+											local v796 = v793 % 60
+
+											v797 = ("%dm %ds"):format(v795, (math.floor(v796)))
+										else
+											v797 = "now"
+										end
+
+										_print7("⚙\239\184\143   Gear restock:" .. v797)
+
+										local _print8 = print
+										local v799 = u446("SeedShop") or 0
+										local v800 = tonumber(v799) or 0
+										local v804
+
+										if not (v800 <= 0) then
+											local v801 = v800 / 60
+											local v802 = math.floor(v801)
+											local v803 = v800 % 60
+
+											v804 = ("%dm %ds"):format(v802, (math.floor(v803)))
+										else
+											v804 = "now"
+										end
+
+										_print8("🌱  Seed restock:" .. v804)
+										print(
+											"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+										)
+										u447("📊 Status", "Printed to output (F9)", 3)
+									end
+								end
+
+								v427:Button(t114)
+
+								local t115 = {
+									Text = "💬 Discord",
+									Tooltip = "Copy the Ronin Hub Discord invite to clipboard",
+								}
+								local u449 = v116
+
+								function t115.Callback()
+									if setclipboard then
+										pcall(setclipboard, "https://discord.gg/uuaFAm6AdE")
+									end
+
+									u449("📋 Discord", "Invite copied!", 3, "success")
+								end
+
+								v427:Button(t115)
+							end
+
+							v427:Button({
+								Text = "🛑 Stop Everything",
+								Tooltip = "Kills all loops and resets character stats",
+								Callback = function()
+									u221()
+								end,
+							})
+
+							local spawn = task.spawn
+							local u451 = LocalPlayer
+
+							spawn(function()
+								while task.wait(2) do
+									pcall(function()
+										local v982 = u451:GetAttribute("PlotId") or "—"
+
+										u233:Set((tostring(v982)))
+									end)
+									pcall(function()
+										local v984 = u163()
+
+										u234:Set((tostring(v984)))
+									end)
+								end
+							end)
+
+							local spawn2 = task.spawn
+							local u453 = v132
+
+							spawn2(function()
+								while task.wait(5) do
+									pcall(function()
+										local v986 = (function(...)
+											local t116 = { ... }
+
+											t116.n = select("#", ...)
+
+											return t116
+										end)(u118(u453("GearShop") or 0))
+
+										u268:Set(unpack(v986, 1, v986.n))
+									end)
+									pcall(function()
+										local v992 = (function(...)
+											local t117 = { ... }
+
+											t117.n = select("#", ...)
+
+											return t117
+										end)(u118(u453("SeedShop") or 0))
+
+										u280:Set(unpack(v992, 1, v992.n))
+									end)
+									pcall(function()
+										local v998 = (function(...)
+											local t118 = { ... }
+
+											t118.n = select("#", ...)
+
+											return t118
+										end)(u118(u453("GearShop") or 0))
+
+										u311:Set(unpack(v998, 1, v998.n))
+									end)
+									pcall(function()
+										local v1004 = (function(...)
+											local t119 = { ... }
+
+											t119.n = select("#", ...)
+
+											return t119
+										end)(u118(u453("SeedShop") or 0))
+
+										u312:Set(unpack(v1004, 1, v1004.n))
+									end)
+								end
+							end)
+
+							local spawn3 = task.spawn
+							local u455 = t2
+
+							spawn3(function()
+								while task.wait(1) do
+									pcall(function()
+										u440:Set(u455.SellInterval .. "s")
+									end)
+									pcall(function()
+										u441:Set(u455.AuraRange .. " st")
+									end)
+								end
+							end)
+						end
+
+						print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+						print("✅  Ronin Hub — Grow a Garden 2  v2")
+
+						local _print = print
+						local LocalPlayerName = LocalPlayer.Name
+						local GameId = game.GameId
+
+						print("👤  " .. LocalPlayerName .. "  |  GameId: " .. tostring(GameId))
+						local v460 = LocalPlayer:GetAttribute("PlotId") or "not set"
+
+						print("🌾  PlotId: " .. tostring(v460))
+						print("📱  Mobile: " .. tostring(v29))
+						print("🔑  RightControl to toggle UI")
+						print("🎯  X to toggle Sniper  |  F to toggle Fly")
+						print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+						v116("✅ Ronin Hub", "GaG2 v2 — " .. LocalPlayer.Name, 5, "success")
+
+						return
+					end
+				end
+
+				v432 = nil
+				g430 = true
+			until not g430
+		end
+	end
+
+	v225 = nil
+	g223 = true
+until not g223
