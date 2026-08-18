@@ -1,0 +1,331 @@
+local Fluent, SaveManager, InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/xshiba/OBFUP/refs/heads/main/GET.lua "))()
+
+local Window = Fluent:CreateWindow({
+    Title = "Example UI",
+    SubTitle = "Full Example",
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = true,
+    Theme = "Darker",
+    MinimizeKey = Enum.KeyCode.LeftControl,
+    TabWidth = 160
+})
+
+local GeneralTab = Window:AddTab({
+    Title = "General",
+    Icon = "home"
+})
+
+local CombatTab = Window:AddTab({
+    Title = "Combat",
+    Icon = "sword"
+})
+
+local VisualsTab = Window:AddTab({
+    Title = "Visuals",
+    Icon = "eye"
+})
+
+local SettingsTab = Window:AddTab({
+    Title = "Settings",
+    Icon = "settings"
+})
+
+local PlayerSection = GeneralTab:AddSection("Player Information")
+
+PlayerSection:AddParagraph({
+    Title = "Welcome",
+    Content = "This is an example UI using Fluent library"
+})
+
+PlayerSection:AddButton({
+    Title = "Print Message",
+    Description = "Click to print a message",
+    Callback = function()
+        print("Hello from Fluent UI!")
+        Fluent:Notify({
+            Title = "Notification",
+            Content = "Button clicked!",
+            SubContent = "This is a test notification",
+            Duration = 3
+        })
+    end
+})
+
+local ToggleExample = PlayerSection:AddToggle("Toggle_1", {
+    Title = "Enable Feature",
+    Description = "Toggle this feature on/off",
+    Default = false,
+    Callback = function(value)
+        print("Toggle changed to:", value)
+    end
+})
+
+local UserSection = GeneralTab:AddSection("User Settings")
+
+local InputExample = UserSection:AddInput("Input_1", {
+    Title = "Username",
+    Description = "Enter your username",
+    Default = "Player",
+    Placeholder = "Type here...",
+    Finished = true,
+    Callback = function(value)
+        print("Username set to:", value)
+    end
+})
+
+local SliderExample = UserSection:AddSlider("Slider_1", {
+    Title = "Volume",
+    Description = "Adjust volume level",
+    Min = 0,
+    Max = 100,
+    Default = 50,
+    Rounding = 0,
+    Callback = function(value)
+        print("Volume set to:", value)
+    end
+})
+
+local CombatSection = CombatTab:AddSection("Combat Settings")
+
+local WeaponDropdown = CombatSection:AddDropdown("Weapon_1", {
+    Title = "Select Weapon",
+    Description = "Choose your weapon",
+    Values = {"Sword", "Bow", "Staff", "Dagger"},
+    Default = "Sword",
+    Callback = function(value)
+        print("Weapon selected:", value)
+    end
+})
+
+local AimbotTargets = CombatSection:AddDropdown("Targets_1", {
+    Title = "Aimbot Targets",
+    Description = "Select targets to aim at",
+    Values = {"Players", "NPCs", "Animals"},
+    Multi = true,
+    Default = {"Players", "NPCs"},
+    Callback = function(value)
+        print("Targets:", value)
+    end
+})
+
+local AimbotKeybind = CombatSection:AddKeybind("Aimbot_1", {
+    Title = "Aimbot Keybind",
+    Description = "Hold to aimbot",
+    Default = "LeftAlt",
+    Mode = "Hold",
+    Callback = function(value)
+        print("Aimbot active:", value)
+    end
+})
+
+local AimbotColor = CombatSection:AddColorpicker("Color_1", {
+    Title = "Aimbot Color",
+    Description = "Color for aimbot lines",
+    Default = Color3.fromRGB(255, 0, 0),
+    Transparency = 0.5,
+    Callback = function(color)
+        print("Color changed to:", color)
+    end
+})
+
+local VisualSection = VisualsTab:AddSection("Visual Settings")
+
+local ESPToggle = VisualSection:AddToggle("ESP_1", {
+    Title = "Enable ESP",
+    Description = "Show player boxes and names",
+    Default = true,
+    Callback = function(value)
+        print("ESP enabled:", value)
+    end
+})
+
+local ESPDistance = VisualSection:AddSlider("ESP_Distance", {
+    Title = "ESP Distance",
+    Description = "Max distance for ESP",
+    Min = 50,
+    Max = 500,
+    Default = 250,
+    Rounding = 0,
+    Callback = function(value)
+        print("ESP distance:", value)
+    end
+})
+
+local ESPStyle = VisualSection:AddDropdown("ESP_Style", {
+    Title = "ESP Style",
+    Description = "Choose ESP box style",
+    Values = {"Box", "Corner", "Circle"},
+    Default = "Box",
+    Callback = function(value)
+        print("ESP style:", value)
+    end
+})
+
+local ESPColor = VisualSection:AddColorpicker("ESP_Color", {
+    Title = "ESP Color",
+    Description = "Color for ESP boxes",
+    Default = Color3.fromRGB(0, 255, 0),
+    Callback = function(color)
+        print("ESP color changed")
+    end
+})
+
+local ChamsSection = VisualsTab:AddSection("Chams Settings")
+
+local ChamsToggle = ChamsSection:AddToggle("Chams_1", {
+    Title = "Enable Chams",
+    Description = "Show colored chams",
+    Default = false,
+    Callback = function(value)
+        print("Chams enabled:", value)
+    end
+})
+
+local ChamsColor = ChamsSection:AddColorpicker("Chams_Color", {
+    Title = "Chams Color",
+    Description = "Pick chams color",
+    Default = Color3.fromRGB(0, 255, 255),
+    Callback = function(color)
+        print("Chams color updated")
+    end
+})
+
+local InterfaceSection = SettingsTab:AddSection("Interface Settings")
+
+local ThemeDropdown = InterfaceSection:AddDropdown("Theme_1", {
+    Title = "Theme",
+    Description = "Change UI theme",
+    Values = Fluent.Themes,
+    Default = "Darker",
+    Callback = function(value)
+        Fluent:SetTheme(value)
+    end
+})
+
+if Window.AcrylicPaint then
+    InterfaceSection:AddToggle("Acrylic_1", {
+        Title = "Acrylic Effect",
+        Description = "Enable acrylic blur background",
+        Default = true,
+        Callback = function(value)
+            Fluent:ToggleAcrylic(value)
+        end
+    })
+end
+
+InterfaceSection:AddToggle("Transparency_1", {
+    Title = "Transparency",
+    Description = "Make UI transparent",
+    Default = false,
+    Callback = function(value)
+        Fluent:ToggleTransparency(value)
+    end
+})
+
+local MinimizeKeybind = InterfaceSection:AddKeybind("Minimize_1", {
+    Title = "Minimize Keybind",
+    Description = "Key to toggle UI",
+    Default = "RightControl",
+    Mode = "Toggle",
+    Callback = function()
+        print("UI toggled")
+    end
+})
+
+local CreditsSection = SettingsTab:AddSection("Credits")
+
+CreditsSection:AddParagraph({
+    Title = "Fluent UI",
+    Content = "Version 1.1.0\nCreated by dawid-scripts\nExample by user"
+})
+
+CreditsSection:AddButton({
+    Title = "Discord",
+    Description = "Join our Discord server",
+    Callback = function()
+        setclipboard("https://discord.gg/example")
+        Fluent:Notify({
+            Title = "Copied!",
+            Content = "Discord link copied to clipboard",
+            Duration = 2
+        })
+    end
+})
+
+SaveManager:SetLibrary(Fluent)
+SaveManager:SetFolder("FluentExample")
+SaveManager:IgnoreThemeSettings()
+SaveManager:SetIgnoreIndexes({
+    "SaveManager_ConfigName",
+    "SaveManager_ConfigList"
+})
+
+SaveManager:BuildConfigSection(SettingsTab)
+SaveManager:LoadAutoloadConfig()
+
+InterfaceManager:SetLibrary(Fluent)
+InterfaceManager:SetFolder("FluentExample")
+InterfaceManager:BuildInterfaceSection(SettingsTab)
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local RunService = game:GetService("RunService")
+
+local espEnabled = false
+local espBoxes = {}
+
+local function CreateESPBox(player)
+    print("Created ESP for:", player.Name)
+end
+
+local function ClearESP()
+    for _, box in pairs(espBoxes) do
+        if box and box.Destroy then
+            box:Destroy()
+        end
+    end
+    espBoxes = {}
+end
+
+local function UpdateESP()
+    if not espEnabled then
+        ClearESP()
+        return
+    end
+    
+    for _, player in pairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer then
+            if not espBoxes[player] then
+                CreateESPBox(player)
+            end
+        end
+    end
+end
+
+ESPToggle:OnChanged(function(value)
+    espEnabled = value
+    if not value then
+        ClearESP()
+    else
+        UpdateESP()
+    end
+end)
+
+RunService.RenderStepped:Connect(function()
+    if espEnabled then
+        UpdateESP()
+    end
+end)
+
+game:GetService("Players").LocalPlayer.OnTeleport:Connect(function()
+    SaveManager:Save("AutoSave")
+end)
+
+Fluent:Notify({
+    Title = "Example UI",
+    Content = "Interface loaded successfully!",
+    SubContent = "Enjoy using Fluent",
+    Duration = 3
+})
+
+print("Fluent UI Example loaded!")
